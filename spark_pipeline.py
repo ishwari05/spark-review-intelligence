@@ -834,21 +834,67 @@ def main():
     # 3. Business Insights
     insights = generate_business_insights(df, best, top_pos, top_neg)
 
-    # 4. Generate Figures
+    # 4. Aspect-Based Sentiment Analysis (ABSA)
+    from absa import run_spark_absa, generate_absa_figures
+    log("Running Aspect-Based Sentiment Analysis (ABSA) on Spark DataFrame...")
+    absa_df, absa_summary = run_spark_absa(spark, df, best_model)
+    log(f"ABSA completed: {absa_summary['total_aspect_mentions']:,} total aspect mentions found.")
+    generate_absa_figures(absa_summary["aspects"], FIGURES_DIR)
+
+    # Save aspect sentiment sample CSV
+    csv_path = os.path.join(RESULTS_DIR, "aspect_sentiment.csv")
+    sample_pd = absa_df.limit(2000).toPandas()
+    sample_pd.to_csv(csv_path, index=False)
+    log(f"Aspect sentiment sample CSV saved to {csv_path}")
+
+    # 5. Topic & Customer Complaint Mining (Negative Reviews)
+    from complaint_mining import (
+        mine_negative_complaints_spark,
+        run_spark_lda_topics,
+        generate_complaint_figures,
+    )
+    log("Running Topic & Complaint Mining on negative reviews...")
+    neg_reviews_df = df.filter(F.col("label") == 0.0)
+    total_neg_count = neg_reviews_df.count()
+    complaints_data = mine_negative_complaints_spark(spark, neg_reviews_df, total_neg_count=total_neg_count, top_n=25)
+    log(f"Complaint Mining completed: {len(complaints_data['top_complaints'])} quality complaint phrases extracted.")
+
+    log("Running Spark MLlib LDA Topic Discovery (k=5)...")
+    lda_topics = run_spark_lda_topics(spark, neg_reviews_df, k=5, max_iter=15)
+    generate_complaint_figures(complaints_data, lda_topics, FIGURES_DIR)
+
+    # Save complaints and topics CSVs
+    import pandas as pd
+    pd.DataFrame(complaints_data["top_complaints"]).to_csv(os.path.join(RESULTS_DIR, "complaints.csv"), index=False)
+    pd.DataFrame([
+        {
+            "topic_id": t["topic_id"],
+            "label": t["label"],
+            "top_terms": t["top_words_str"],
+            "interpretation": t["statistical_interpretation"],
+        }
+        for t in lda_topics
+    ]).to_csv(os.path.join(RESULTS_DIR, "topics.csv"), index=False)
+    log("Saved complaints.csv and topics.csv.")
+
+    # 6. Generate Baseline Presentation Figures
     generate_presentation_figures(all_metrics, best, eda, top_pos, top_neg)
 
-    # 5. Save Winning Model for Live Inference (api.py)
+    # 7. Save Winning Model for Live Inference (api.py)
     best_model.write().overwrite().save(MODEL_DIR)
     with open(os.path.join(RESULTS_DIR, "best_model_name.txt"), "w") as f:
         f.write(best["name"])
 
-    # 6. Save Consolidated Results JSON
+    # 8. Save Consolidated Results JSON
     output = {
         "eda": eda,
         "models": all_metrics,
         "best_model": best["name"],
         "error_analysis": error_report,
         "business_insights": insights,
+        "absa": absa_summary,
+        "complaint_mining": complaints_data,
+        "lda_topics": lda_topics,
         "dataset_info": {
             "source": "Amazon Polarity (HuggingFace datasets)",
             "sample_size": eda["total_rows"],
@@ -861,7 +907,7 @@ def main():
     with open(os.path.join(RESULTS_DIR, "results.json"), "w") as f:
         json.dump(output, f, indent=2)
 
-    log(f"Done. All metrics and error analysis saved to {RESULTS_DIR}/results.json")
+    log(f"Done. All metrics, error analysis, and ABSA saved to {RESULTS_DIR}/results.json")
     log(f"Best model saved to {MODEL_DIR}/ for live API serving.")
     spark.stop()
 

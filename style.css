@@ -210,3 +210,78 @@ td:first-child, th:first-child { font-weight: 600; color: var(--text); }
 }
 
 .empty-note { color: var(--text-dim); font-size: 14px; padding: 20px; }
+
+/* ---------- Aspect Intelligence (ABSA) ---------- */
+.aspect-progress-list { display: flex; flex-direction: column; gap: 14px; }
+.aspect-progress-item { background: var(--panel-2); border-radius: 10px; padding: 14px 18px; border: 1px solid var(--border); }
+.aspect-progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.aspect-name { font-weight: 600; font-size: 14px; }
+.aspect-meta { font-size: 12px; color: var(--text-dim); }
+.aspect-bar-track { height: 10px; background: rgba(255,255,255,0.06); border-radius: 5px; overflow: hidden; display: flex; }
+.aspect-bar-fill-pos { height: 100%; background: var(--pos); transition: width 0.4s ease; }
+.aspect-bar-fill-neg { height: 100%; background: var(--neg); transition: width 0.4s ease; }
+
+.pain-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--neg);
+  border-radius: 12px;
+  padding: 18px;
+}
+.pain-card .title { font-weight: 700; font-size: 15px; color: var(--text); }
+.pain-card .rate { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; color: var(--neg); margin: 6px 0; }
+.pain-card .desc { font-size: 12px; color: var(--text-dim); }
+.pain-card .badge {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 600;
+  background: rgba(255,107,107,0.15);
+  color: var(--neg);
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-top: 8px;
+}
+
+/* Aspect tag in live analyzer */
+.aspect-tags-list { display: flex; flex-direction: column; gap: 8px; }
+.aspect-badge-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+}
+.aspect-badge-item.pos { border-left: 3px solid var(--pos); }
+.aspect-badge-item.neg { border-left: 3px solid var(--neg); }
+.aspect-badge-name { font-weight: 600; font-size: 13.5px; }
+.aspect-badge-context { font-size: 12px; color: var(--text-dim); margin-top: 2px; font-style: italic; }
+.aspect-badge-sent { font-weight: 700; font-size: 12px; padding: 3px 9px; border-radius: 14px; }
+.aspect-badge-sent.pos { background: rgba(61,220,151,0.15); color: var(--pos); }
+.aspect-badge-sent.neg { background: rgba(255,107,107,0.15); color: var(--neg); }
+
+/* Complaint table pills */
+.badge-ngram {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(91,141,239,0.15);
+  color: #5b8def;
+  letter-spacing: 0.3px;
+}
+.aspect-chip {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 10px;
+  background: rgba(245,166,35,0.12);
+  color: var(--spark);
+}
+
+/* Complaints list in live analyzer */
+.complaints-tags-list { display: flex; flex-direction: column; gap: 8px; }
+.complaints-results-container { margin-top: 12px; }

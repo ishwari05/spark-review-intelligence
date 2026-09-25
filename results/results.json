@@ -1196,5 +1196,1149 @@
       "rows": 200000,
       "train_time_sec": 5.74
     }
+  ],
+  "absa": {
+    "aspects": [
+      {
+        "aspect": "Price / Value",
+        "mentions": 4833,
+        "positive_mentions": 1853,
+        "negative_mentions": 2980,
+        "positive_pct": 38.34,
+        "negative_pct": 61.66,
+        "avg_confidence": 93.38,
+        "is_pain_point": true,
+        "status": "High Negative Feedback",
+        "classification": "Potential Customer Pain Point"
+      },
+      {
+        "aspect": "Build Quality",
+        "mentions": 2531,
+        "positive_mentions": 1049,
+        "negative_mentions": 1482,
+        "positive_pct": 41.45,
+        "negative_pct": 58.55,
+        "avg_confidence": 92.99,
+        "is_pain_point": true,
+        "status": "High Negative Feedback",
+        "classification": "Potential Customer Pain Point"
+      },
+      {
+        "aspect": "Customer Support",
+        "mentions": 1681,
+        "positive_mentions": 697,
+        "negative_mentions": 984,
+        "positive_pct": 41.46,
+        "negative_pct": 58.54,
+        "avg_confidence": 92.1,
+        "is_pain_point": true,
+        "status": "High Negative Feedback",
+        "classification": "Potential Customer Pain Point"
+      },
+      {
+        "aspect": "Delivery / Packaging",
+        "mentions": 1477,
+        "positive_mentions": 615,
+        "negative_mentions": 862,
+        "positive_pct": 41.64,
+        "negative_pct": 58.36,
+        "avg_confidence": 91.96,
+        "is_pain_point": true,
+        "status": "High Negative Feedback",
+        "classification": "Potential Customer Pain Point"
+      },
+      {
+        "aspect": "Battery",
+        "mentions": 779,
+        "positive_mentions": 361,
+        "negative_mentions": 418,
+        "positive_pct": 46.34,
+        "negative_pct": 53.66,
+        "avg_confidence": 92.67,
+        "is_pain_point": true,
+        "status": "High Negative Feedback",
+        "classification": "Potential Customer Pain Point"
+      }
+    ],
+    "pain_points": [
+      {
+        "aspect": "Price / Value",
+        "negative_pct": 61.66,
+        "mentions": 4833,
+        "status": "High Negative Feedback",
+        "note": "61.66% negative feedback across 4,833 mentions."
+      },
+      {
+        "aspect": "Build Quality",
+        "negative_pct": 58.55,
+        "mentions": 2531,
+        "status": "High Negative Feedback",
+        "note": "58.55% negative feedback across 2,531 mentions."
+      },
+      {
+        "aspect": "Customer Support",
+        "negative_pct": 58.54,
+        "mentions": 1681,
+        "status": "High Negative Feedback",
+        "note": "58.54% negative feedback across 1,681 mentions."
+      },
+      {
+        "aspect": "Delivery / Packaging",
+        "negative_pct": 58.36,
+        "mentions": 1477,
+        "status": "High Negative Feedback",
+        "note": "58.36% negative feedback across 1,477 mentions."
+      },
+      {
+        "aspect": "Battery",
+        "negative_pct": 53.66,
+        "mentions": 779,
+        "status": "High Negative Feedback",
+        "note": "53.66% negative feedback across 779 mentions."
+      }
+    ],
+    "total_aspect_mentions": 11301,
+    "sample_predictions": [
+      {
+        "review": "Amazon responded immediately but forwarded to the supplier. Don't waste your money. It's a hand held wand that may or may not be infrared. Doesn't heat up to any degree that will b...",
+        "aspect": "Price / Value",
+        "context": "Don't waste your money",
+        "sentiment": "Negative",
+        "confidence": 100.0
+      },
+      {
+        "review": "I would have given it zero stars if possible. This is the worst cd I have ever listened to. The quality of the recordings are so bad that it hurts your ears to listen to it. This h...",
+        "aspect": "Build Quality",
+        "context": "The quality of the recordings are so bad that it hurts your ears to listen to it",
+        "sentiment": "Negative",
+        "confidence": 100.0
+      },
+      {
+        "review": "I would have given it zero stars if possible. This is the worst cd I have ever listened to. The quality of the recordings are so bad that it hurts your ears to listen to it. This h...",
+        "aspect": "Price / Value",
+        "context": "What a waste of money ... Talk about a sham by some corporate execs trying to make some money off of a dead guy",
+        "sentiment": "Negative",
+        "confidence": 100.0
+      },
+      {
+        "review": "I bought this only because as a fan, I want all of their material. First off, you'll notice the disc length of 76.46. The band added a keyboard player Graham Maitland for this tour...",
+        "aspect": "Build Quality",
+        "context": "I bought this only because as a fan, I want all of their material ... Sound quality is average, sounds like a straight transfer with no doctoring with the sound ... If you can get past the keyboards and the muddy sound quality, you may enjoy it",
+        "sentiment": "Negative",
+        "confidence": 50.6
+      },
+      {
+        "review": "I bought this only because as a fan, I want all of their material. First off, you'll notice the disc length of 76.46. The band added a keyboard player Graham Maitland for this tour...",
+        "aspect": "Delivery / Packaging",
+        "context": "I'm sure the band has some real gems in their archive like the live tracks on the superb 'Distillation' box set",
+        "sentiment": "Positive",
+        "confidence": 98.1
+      },
+      {
+        "review": "I have been taking two capsules daily for two months and not felt or seen one difference in my health. This hasn't been the miracle pill to help cure my PCOS or help my ovulate. In...",
+        "aspect": "Customer Support",
+        "context": "This hasn't been the miracle pill to help cure my PCOS or help my ovulate",
+        "sentiment": "Negative",
+        "confidence": 85.9
+      },
+      {
+        "review": "I don't quite understand why Courtney is allowed to put these things out, and even more surprised that the other members agreed to it (since they have to). Everyone who already put...",
+        "aspect": "Delivery / Packaging",
+        "context": "Everyone who already put out the 50 bucks for the box gets a whole three song bonus, songs which don't even sound like anything special",
+        "sentiment": "Negative",
+        "confidence": 61.2
+      },
+      {
+        "review": "I don't quite understand why Courtney is allowed to put these things out, and even more surprised that the other members agreed to it (since they have to). Everyone who already put...",
+        "aspect": "Price / Value",
+        "context": "Just buy the three songs off of iTunes or something and save yourself the money from buying this CD",
+        "sentiment": "Positive",
+        "confidence": 98.9
+      },
+      {
+        "review": "My husband loves this book. He said he has learned so much and that this was the best book to learn how to build a timber frame house by.",
+        "aspect": "Build Quality",
+        "context": "He said he has learned so much and that this was the best book to learn how to build a timber frame house by",
+        "sentiment": "Positive",
+        "confidence": 99.6
+      },
+      {
+        "review": "This is one of the worst books ever. It tries to capitalize on the Chicken Soup for the Soul-type, void of any substance stories. This was not written by the author and takes advan...",
+        "aspect": "Price / Value",
+        "context": "Please people, avoid this book, buy something that will be worth your time and money",
+        "sentiment": "Negative",
+        "confidence": 100.0
+      },
+      {
+        "review": "I just don't get it - SOULWAX has been around since the 90s, when they released their \"rock\" debut (on the now defunct Almo Sounds), chock full of should-have-been radio hits, and ...",
+        "aspect": "Battery",
+        "context": "they got some attention for their \"2 Many DJs\" mash-up/remix bootlegs, when they return to a full-fledged band, as with last year's ANY MINUTE NOW, critcs & consumers alike barely took notice of that album's amazing writing, production, and sheer electro-rock power",
+        "sentiment": "Positive",
+        "confidence": 100.0
+      },
+      {
+        "review": "This novel is absolutely awful. Although it has received over 500 reviews I feel it is my duty to help bring the average star level to where it belongs, at zero. Where to begin... ...",
+        "aspect": "Customer Support",
+        "context": "it has received over 500 reviews I feel it is my duty to help bring the average star level to where it belongs, at zero",
+        "sentiment": "Negative",
+        "confidence": 99.9
+      },
+      {
+        "review": "I looked everywhere for a nice, simple design. I must have browsed hundreds of different styles. Anchor Hocking's Bolera set is just right - simple but not obviously.The glass is j...",
+        "aspect": "Build Quality",
+        "context": "I looked everywhere for a nice, simple design",
+        "sentiment": "Positive",
+        "confidence": 98.5
+      },
+      {
+        "review": "This book is an excellent source of knowledge and information. So much of the information is still relevant today and is timeless. The deep level of knowledge and in sight into the...",
+        "aspect": "Price / Value",
+        "context": "The value of representing your self to the best of your ability",
+        "sentiment": "Positive",
+        "confidence": 76.9
+      },
+      {
+        "review": "Read it all of it. can not say that I will use any of it. As a woodsman we usually go out already prepared and with our own more modern and durable gear. maybe if I were to live ou...",
+        "aspect": "Build Quality",
+        "context": "As a woodsman we usually go out already prepared and with our own more modern and durable gear",
+        "sentiment": "Negative",
+        "confidence": 92.9
+      },
+      {
+        "review": "Though the Carlyle glassware is currently out of stock, I decided to write a review assuming they'll be back. I bought these glasses over a year ago after noticing that I was down ...",
+        "aspect": "Build Quality",
+        "context": "Each of the exterior widening \"steps\" in the design helps keep the glass from slipping from one's grasp ... I also like the idea that this is an old design from the 1930's",
+        "sentiment": "Negative",
+        "confidence": 72.6
+      },
+      {
+        "review": "I just got these stockings but the seller sent me a way smaller size (A-B) than I ordered, I e-mailed them telling them about the problem and will keep you dear buyer posted. I can...",
+        "aspect": "Build Quality",
+        "context": "I cannot tell you about anything about the quality or color because I have not opened the ones I received",
+        "sentiment": "Negative",
+        "confidence": 99.5
+      },
+      {
+        "review": "If you are a John Denver fan this disk will make you cry and not for the reasons you might expect. I turned it off after 5 tracks because I couldn't bare to listen to it any more. ...",
+        "aspect": "Build Quality",
+        "context": "The arrangements were definitely not what I was expecting and the quality was awful",
+        "sentiment": "Negative",
+        "confidence": 100.0
+      },
+      {
+        "review": "I ordered the samples of this product because I was interested in trying the sulphate free shampoo, which is expensive. The samples are REALLY random, so you may not get ones you a...",
+        "aspect": "Price / Value",
+        "context": "I ordered the samples of this product because I was interested in trying the sulphate free shampoo, which is expensive ... the shipping and handling were double the cost of the product itself",
+        "sentiment": "Positive",
+        "confidence": 55.0
+      },
+      {
+        "review": "I ordered the samples of this product because I was interested in trying the sulphate free shampoo, which is expensive. The samples are REALLY random, so you may not get ones you a...",
+        "aspect": "Customer Support",
+        "context": "They say you can return it for a refund, less shipping and handling",
+        "sentiment": "Negative",
+        "confidence": 99.9
+      }
+    ]
+  },
+  "complaint_mining": {
+    "total_negative_reviews": 14572,
+    "top_complaints": [
+      {
+        "phrase": "waste money",
+        "n_gram_type": "Bigram",
+        "frequency": 568,
+        "percentage": 3.9,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "poor quality",
+        "n_gram_type": "Bigram",
+        "frequency": 83,
+        "percentage": 0.57,
+        "aspect": "Build Quality"
+      },
+      {
+        "phrase": "movie bad",
+        "n_gram_type": "Bigram",
+        "frequency": 76,
+        "percentage": 0.52,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "bad movie",
+        "n_gram_type": "Bigram",
+        "frequency": 76,
+        "percentage": 0.52,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "stopped working",
+        "n_gram_type": "Bigram",
+        "frequency": 72,
+        "percentage": 0.49,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst movie",
+        "n_gram_type": "Bigram",
+        "frequency": 72,
+        "percentage": 0.49,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "piece junk",
+        "n_gram_type": "Bigram",
+        "frequency": 67,
+        "percentage": 0.46,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "bad acting",
+        "n_gram_type": "Bigram",
+        "frequency": 67,
+        "percentage": 0.46,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst movies",
+        "n_gram_type": "Bigram",
+        "frequency": 61,
+        "percentage": 0.42,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst book",
+        "n_gram_type": "Bigram",
+        "frequency": 59,
+        "percentage": 0.4,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "never read",
+        "n_gram_type": "Bigram",
+        "frequency": 58,
+        "percentage": 0.4,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "total waste",
+        "n_gram_type": "Bigram",
+        "frequency": 53,
+        "percentage": 0.36,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "complete waste",
+        "n_gram_type": "Bigram",
+        "frequency": 51,
+        "percentage": 0.35,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "far worst",
+        "n_gram_type": "Bigram",
+        "frequency": 49,
+        "percentage": 0.34,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "dont waste",
+        "n_gram_type": "Bigram",
+        "frequency": 46,
+        "percentage": 0.32,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "never seen",
+        "n_gram_type": "Bigram",
+        "frequency": 44,
+        "percentage": 0.3,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "bad bad",
+        "n_gram_type": "Bigram",
+        "frequency": 42,
+        "percentage": 0.29,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst movies seen",
+        "n_gram_type": "Trigram",
+        "frequency": 40,
+        "percentage": 0.27,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst book read",
+        "n_gram_type": "Trigram",
+        "frequency": 38,
+        "percentage": 0.26,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "book bad",
+        "n_gram_type": "Bigram",
+        "frequency": 36,
+        "percentage": 0.25,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "book waste",
+        "n_gram_type": "Bigram",
+        "frequency": 35,
+        "percentage": 0.24,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "pretty bad",
+        "n_gram_type": "Bigram",
+        "frequency": 33,
+        "percentage": 0.23,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst books",
+        "n_gram_type": "Bigram",
+        "frequency": 33,
+        "percentage": 0.23,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "book never",
+        "n_gram_type": "Bigram",
+        "frequency": 31,
+        "percentage": 0.21,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "bad script",
+        "n_gram_type": "Bigram",
+        "frequency": 31,
+        "percentage": 0.21,
+        "aspect": "General Dissatisfaction"
+      }
+    ],
+    "top_bigrams": [
+      {
+        "phrase": "waste money",
+        "n_gram_type": "Bigram",
+        "frequency": 568,
+        "percentage": 3.9,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "read book",
+        "n_gram_type": "Bigram",
+        "frequency": 505,
+        "percentage": 3.47,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "year old",
+        "n_gram_type": "Bigram",
+        "frequency": 285,
+        "percentage": 1.96,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "save money",
+        "n_gram_type": "Bigram",
+        "frequency": 247,
+        "percentage": 1.7,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "book read",
+        "n_gram_type": "Bigram",
+        "frequency": 227,
+        "percentage": 1.56,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "baby dry",
+        "n_gram_type": "Bigram",
+        "frequency": 211,
+        "percentage": 1.45,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "special effects",
+        "n_gram_type": "Bigram",
+        "frequency": 198,
+        "percentage": 1.36,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "reading book",
+        "n_gram_type": "Bigram",
+        "frequency": 175,
+        "percentage": 1.2,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "years ago",
+        "n_gram_type": "Bigram",
+        "frequency": 142,
+        "percentage": 0.97,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "recommend book",
+        "n_gram_type": "Bigram",
+        "frequency": 121,
+        "percentage": 0.83,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "main character",
+        "n_gram_type": "Bigram",
+        "frequency": 119,
+        "percentage": 0.82,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "stay away",
+        "n_gram_type": "Bigram",
+        "frequency": 116,
+        "percentage": 0.8,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "customer service",
+        "n_gram_type": "Bigram",
+        "frequency": 114,
+        "percentage": 0.78,
+        "aspect": "Customer Support"
+      },
+      {
+        "phrase": "blu ray",
+        "n_gram_type": "Bigram",
+        "frequency": 113,
+        "percentage": 0.78,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "book book",
+        "n_gram_type": "Bigram",
+        "frequency": 106,
+        "percentage": 0.73,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "story line",
+        "n_gram_type": "Bigram",
+        "frequency": 104,
+        "percentage": 0.71,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "high school",
+        "n_gram_type": "Bigram",
+        "frequency": 102,
+        "percentage": 0.7,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "read reviews",
+        "n_gram_type": "Bigram",
+        "frequency": 99,
+        "percentage": 0.68,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "found book",
+        "n_gram_type": "Bigram",
+        "frequency": 95,
+        "percentage": 0.65,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "want read",
+        "n_gram_type": "Bigram",
+        "frequency": 94,
+        "percentage": 0.65,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "doesn work",
+        "n_gram_type": "Bigram",
+        "frequency": 94,
+        "percentage": 0.65,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "book written",
+        "n_gram_type": "Bigram",
+        "frequency": 89,
+        "percentage": 0.61,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "didn work",
+        "n_gram_type": "Bigram",
+        "frequency": 89,
+        "percentage": 0.61,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "rachel weisz",
+        "n_gram_type": "Bigram",
+        "frequency": 89,
+        "percentage": 0.61,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "poor quality",
+        "n_gram_type": "Bigram",
+        "frequency": 83,
+        "percentage": 0.57,
+        "aspect": "Build Quality"
+      }
+    ],
+    "top_trigrams": [
+      {
+        "phrase": "pampers baby dry",
+        "n_gram_type": "Trigram",
+        "frequency": 51,
+        "percentage": 0.35,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "baby dry diapers",
+        "n_gram_type": "Trigram",
+        "frequency": 47,
+        "percentage": 0.32,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst movies seen",
+        "n_gram_type": "Trigram",
+        "frequency": 40,
+        "percentage": 0.27,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst book read",
+        "n_gram_type": "Trigram",
+        "frequency": 38,
+        "percentage": 0.26,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "year old son",
+        "n_gram_type": "Trigram",
+        "frequency": 34,
+        "percentage": 0.23,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst movie seen",
+        "n_gram_type": "Trigram",
+        "frequency": 30,
+        "percentage": 0.21,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "dont waste money",
+        "n_gram_type": "Trigram",
+        "frequency": 29,
+        "percentage": 0.2,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "recommend book anyone",
+        "n_gram_type": "Trigram",
+        "frequency": 28,
+        "percentage": 0.19,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "total waste money",
+        "n_gram_type": "Trigram",
+        "frequency": 26,
+        "percentage": 0.18,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "year old daughter",
+        "n_gram_type": "Trigram",
+        "frequency": 25,
+        "percentage": 0.17,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst books read",
+        "n_gram_type": "Trigram",
+        "frequency": 23,
+        "percentage": 0.16,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "read book school",
+        "n_gram_type": "Trigram",
+        "frequency": 23,
+        "percentage": 0.16,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "want read book",
+        "n_gram_type": "Trigram",
+        "frequency": 21,
+        "percentage": 0.14,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "complete waste money",
+        "n_gram_type": "Trigram",
+        "frequency": 21,
+        "percentage": 0.14,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "texas chainsaw massacre",
+        "n_gram_type": "Trigram",
+        "frequency": 19,
+        "percentage": 0.13,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "please save money",
+        "n_gram_type": "Trigram",
+        "frequency": 17,
+        "percentage": 0.12,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "book waste money",
+        "n_gram_type": "Trigram",
+        "frequency": 17,
+        "percentage": 0.12,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "hard earned money",
+        "n_gram_type": "Trigram",
+        "frequency": 16,
+        "percentage": 0.11,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "forced read book",
+        "n_gram_type": "Trigram",
+        "frequency": 16,
+        "percentage": 0.11,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "blah blah blah",
+        "n_gram_type": "Trigram",
+        "frequency": 16,
+        "percentage": 0.11,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "wouldn recommend book",
+        "n_gram_type": "Trigram",
+        "frequency": 15,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "book poorly written",
+        "n_gram_type": "Trigram",
+        "frequency": 15,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "never read book",
+        "n_gram_type": "Trigram",
+        "frequency": 15,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "read book english",
+        "n_gram_type": "Trigram",
+        "frequency": 15,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "tora tora tora",
+        "n_gram_type": "Trigram",
+        "frequency": 14,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      }
+    ],
+    "aspect_complaints": {
+      "Battery": [],
+      "Build Quality": [
+        {
+          "phrase": "poor quality",
+          "n_gram_type": "Bigram",
+          "frequency": 83,
+          "percentage": 0.57,
+          "aspect": "Build Quality"
+        },
+        {
+          "phrase": "sound quality poor",
+          "n_gram_type": "Trigram",
+          "frequency": 6,
+          "percentage": 0.04,
+          "aspect": "Build Quality"
+        }
+      ],
+      "Price / Value": [
+        {
+          "phrase": "waste money",
+          "n_gram_type": "Bigram",
+          "frequency": 568,
+          "percentage": 3.9,
+          "aspect": "Price / Value"
+        },
+        {
+          "phrase": "total waste",
+          "n_gram_type": "Bigram",
+          "frequency": 53,
+          "percentage": 0.36,
+          "aspect": "Price / Value"
+        },
+        {
+          "phrase": "complete waste",
+          "n_gram_type": "Bigram",
+          "frequency": 51,
+          "percentage": 0.35,
+          "aspect": "Price / Value"
+        },
+        {
+          "phrase": "dont waste",
+          "n_gram_type": "Bigram",
+          "frequency": 46,
+          "percentage": 0.32,
+          "aspect": "Price / Value"
+        },
+        {
+          "phrase": "book waste",
+          "n_gram_type": "Bigram",
+          "frequency": 35,
+          "percentage": 0.24,
+          "aspect": "Price / Value"
+        },
+        {
+          "phrase": "dont waste money",
+          "n_gram_type": "Trigram",
+          "frequency": 29,
+          "percentage": 0.2,
+          "aspect": "Price / Value"
+        }
+      ],
+      "Customer Support": [],
+      "Delivery / Packaging": [],
+      "General Dissatisfaction": [
+        {
+          "phrase": "movie bad",
+          "n_gram_type": "Bigram",
+          "frequency": 76,
+          "percentage": 0.52,
+          "aspect": "General Dissatisfaction"
+        },
+        {
+          "phrase": "bad movie",
+          "n_gram_type": "Bigram",
+          "frequency": 76,
+          "percentage": 0.52,
+          "aspect": "General Dissatisfaction"
+        },
+        {
+          "phrase": "stopped working",
+          "n_gram_type": "Bigram",
+          "frequency": 72,
+          "percentage": 0.49,
+          "aspect": "General Dissatisfaction"
+        },
+        {
+          "phrase": "worst movie",
+          "n_gram_type": "Bigram",
+          "frequency": 72,
+          "percentage": 0.49,
+          "aspect": "General Dissatisfaction"
+        },
+        {
+          "phrase": "piece junk",
+          "n_gram_type": "Bigram",
+          "frequency": 67,
+          "percentage": 0.46,
+          "aspect": "General Dissatisfaction"
+        },
+        {
+          "phrase": "bad acting",
+          "n_gram_type": "Bigram",
+          "frequency": 67,
+          "percentage": 0.46,
+          "aspect": "General Dissatisfaction"
+        }
+      ]
+    }
+  },
+  "lda_topics": [
+    {
+      "topic_id": 1,
+      "label": "Topic 1",
+      "top_words": [
+        "movie",
+        "book",
+        "film",
+        "bad",
+        "read",
+        "want",
+        "people",
+        "never"
+      ],
+      "top_words_str": "movie, book, film, bad, read, want, people, never",
+      "terms_with_weights": [
+        {
+          "term": "movie",
+          "weight": 0.0352
+        },
+        {
+          "term": "book",
+          "weight": 0.0156
+        },
+        {
+          "term": "film",
+          "weight": 0.0065
+        },
+        {
+          "term": "bad",
+          "weight": 0.0063
+        },
+        {
+          "term": "read",
+          "weight": 0.0062
+        },
+        {
+          "term": "want",
+          "weight": 0.0054
+        },
+        {
+          "term": "people",
+          "weight": 0.0053
+        },
+        {
+          "term": "never",
+          "weight": 0.0051
+        }
+      ],
+      "statistical_interpretation": "Product Durability & Build Issues",
+      "note": "Statistical latent distribution; human interpretation suggested."
+    },
+    {
+      "topic_id": 2,
+      "label": "Topic 2",
+      "top_words": [
+        "album",
+        "dvd",
+        "music",
+        "songs",
+        "version",
+        "better",
+        "sound",
+        "money"
+      ],
+      "top_words_str": "album, dvd, music, songs, version, better, sound, money",
+      "terms_with_weights": [
+        {
+          "term": "album",
+          "weight": 0.0105
+        },
+        {
+          "term": "dvd",
+          "weight": 0.0099
+        },
+        {
+          "term": "music",
+          "weight": 0.0098
+        },
+        {
+          "term": "songs",
+          "weight": 0.0075
+        },
+        {
+          "term": "version",
+          "weight": 0.0071
+        },
+        {
+          "term": "better",
+          "weight": 0.0068
+        },
+        {
+          "term": "sound",
+          "weight": 0.006
+        },
+        {
+          "term": "money",
+          "weight": 0.0056
+        }
+      ],
+      "statistical_interpretation": "Cost, Pricing & Value Assessment",
+      "note": "Statistical latent distribution; human interpretation suggested."
+    },
+    {
+      "topic_id": 3,
+      "label": "Topic 3",
+      "top_words": [
+        "diapers",
+        "pampers",
+        "baby",
+        "dry",
+        "work",
+        "diaper",
+        "hair",
+        "swaddlers"
+      ],
+      "top_words_str": "diapers, pampers, baby, dry, work, diaper, hair, swaddlers",
+      "terms_with_weights": [
+        {
+          "term": "diapers",
+          "weight": 0.0147
+        },
+        {
+          "term": "pampers",
+          "weight": 0.0106
+        },
+        {
+          "term": "baby",
+          "weight": 0.0102
+        },
+        {
+          "term": "dry",
+          "weight": 0.0101
+        },
+        {
+          "term": "work",
+          "weight": 0.0082
+        },
+        {
+          "term": "diaper",
+          "weight": 0.0071
+        },
+        {
+          "term": "hair",
+          "weight": 0.0064
+        },
+        {
+          "term": "swaddlers",
+          "weight": 0.0063
+        }
+      ],
+      "statistical_interpretation": "Delivery, Packaging & Shipping",
+      "note": "Statistical latent distribution; human interpretation suggested."
+    },
+    {
+      "topic_id": 4,
+      "label": "Topic 4",
+      "top_words": [
+        "work",
+        "problem",
+        "quality",
+        "return",
+        "new",
+        "never",
+        "purchased",
+        "unit"
+      ],
+      "top_words_str": "work, problem, quality, return, new, never, purchased, unit",
+      "terms_with_weights": [
+        {
+          "term": "work",
+          "weight": 0.0065
+        },
+        {
+          "term": "problem",
+          "weight": 0.0053
+        },
+        {
+          "term": "quality",
+          "weight": 0.0052
+        },
+        {
+          "term": "return",
+          "weight": 0.0048
+        },
+        {
+          "term": "new",
+          "weight": 0.0048
+        },
+        {
+          "term": "never",
+          "weight": 0.0045
+        },
+        {
+          "term": "purchased",
+          "weight": 0.0044
+        },
+        {
+          "term": "unit",
+          "weight": 0.0042
+        }
+      ],
+      "statistical_interpretation": "Battery, Power & Charging Functionality",
+      "note": "Statistical latent distribution; human interpretation suggested."
+    },
+    {
+      "topic_id": 5,
+      "label": "Topic 5",
+      "top_words": [
+        "book",
+        "read",
+        "story",
+        "books",
+        "reading",
+        "characters",
+        "film",
+        "author"
+      ],
+      "top_words_str": "book, read, story, books, reading, characters, film, author",
+      "terms_with_weights": [
+        {
+          "term": "book",
+          "weight": 0.0548
+        },
+        {
+          "term": "read",
+          "weight": 0.018
+        },
+        {
+          "term": "story",
+          "weight": 0.0126
+        },
+        {
+          "term": "books",
+          "weight": 0.0091
+        },
+        {
+          "term": "reading",
+          "weight": 0.0073
+        },
+        {
+          "term": "characters",
+          "weight": 0.007
+        },
+        {
+          "term": "film",
+          "weight": 0.0061
+        },
+        {
+          "term": "author",
+          "weight": 0.0061
+        }
+      ],
+      "statistical_interpretation": "Customer Service, Returns & Support",
+      "note": "Statistical latent distribution; human interpretation suggested."
+    }
   ]
 }

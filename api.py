@@ -13,12 +13,16 @@ Run AFTER spark_pipeline.py has finished (it needs saved_model/ to exist).
 Then open http://localhost:5000
 """
 
+import json
 import os
 import re
 
 from flask import Flask, jsonify, request, send_from_directory
 from pyspark.sql import SparkSession
 from pyspark.ml import PipelineModel
+
+from absa import predict_aspects_for_review
+from complaint_mining import extract_complaints_from_text
 
 BASE_DIR = os.path.dirname(__file__)
 MODEL_DIR = os.path.join(BASE_DIR, "saved_model")
@@ -107,6 +111,54 @@ def results():
     return send_from_directory(RESULTS_DIR, "results.json")
 
 
+@app.route("/api/aspects")
+def aspects():
+    path = os.path.join(RESULTS_DIR, "results.json")
+    if not os.path.exists(path):
+        return jsonify({"error": "results.json not found — run spark_pipeline.py first"}), 404
+    try:
+        with open(path, "r") as f:
+            data = json.load(f)
+        absa_data = data.get("absa")
+        if not absa_data:
+            return jsonify({"error": "No ABSA analytics found in results.json"}), 404
+        return jsonify(absa_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/complaints")
+def complaints():
+    path = os.path.join(RESULTS_DIR, "results.json")
+    if not os.path.exists(path):
+        return jsonify({"error": "results.json not found — run spark_pipeline.py first"}), 404
+    try:
+        with open(path, "r") as f:
+            data = json.load(f)
+        complaints_data = data.get("complaint_mining")
+        if not complaints_data:
+            return jsonify({"error": "No complaint mining analytics found in results.json"}), 404
+        return jsonify(complaints_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/topics")
+def topics():
+    path = os.path.join(RESULTS_DIR, "results.json")
+    if not os.path.exists(path):
+        return jsonify({"error": "results.json not found — run spark_pipeline.py first"}), 404
+    try:
+        with open(path, "r") as f:
+            data = json.load(f)
+        topics_data = data.get("lda_topics")
+        if not topics_data:
+            return jsonify({"error": "No LDA topics found in results.json"}), 404
+        return jsonify(topics_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route("/api/predict", methods=["POST"])
 def predict():
     data = request.get_json(force=True)
@@ -128,6 +180,14 @@ def predict():
         model_label = best_model_name
     confidence = probs[prediction]
 
+    # Predict aspect-level sentiment for all mentioned aspects
+    aspect_predictions = predict_aspects_for_review(
+        review_text, spark, model, clean, phrase_override
+    )
+
+    # Extract recurring complaint patterns from review text
+    matched_complaints = extract_complaints_from_text(review_text)
+
     return jsonify(
         {
             "sentiment": "POSITIVE" if prediction == 1 else "NEGATIVE",
@@ -135,6 +195,8 @@ def predict():
             "prob_positive": round(probs[1] * 100, 1),
             "prob_negative": round(probs[0] * 100, 1),
             "model_used": model_label,
+            "aspects": aspect_predictions,
+            "complaints": matched_complaints,
         }
     )
 
