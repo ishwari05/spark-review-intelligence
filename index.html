@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Product Review Intelligence — Spark ML</title>
+<link rel="stylesheet" href="style.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-brand">
+    <span class="nav-logo">⚡</span>
+    <div>
+      <div class="nav-title">Product Review Intelligence</div>
+      <div class="nav-subtitle">Scalable Sentiment Analysis · Apache Spark MLlib</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="#overview">Overview</a>
+    <a href="#eda">Data</a>
+    <a href="#models">Models</a>
+    <a href="#analyzer">Analyzer</a>
+    <a href="#insights">Insights</a>
+    <a href="#errors">Error Analysis</a>
+  </div>
+</nav>
+
+<header class="hero" id="overview">
+  <div class="hero-inner">
+    <h1>Scalable Product Review Intelligence</h1>
+    <p>An end-to-end Big Data sentiment intelligence system — Apache Spark distributed
+    processing, TF‑IDF feature engineering, and three Spark MLlib classifiers, trained
+    on real product review data.</p>
+    <div class="stat-row" id="hero-stats">
+      <div class="stat-card"><div class="stat-value" id="stat-rows">—</div><div class="stat-label">Reviews Processed</div></div>
+      <div class="stat-card"><div class="stat-value">3</div><div class="stat-label">Spark MLlib Models</div></div>
+      <div class="stat-card"><div class="stat-value">TF‑IDF</div><div class="stat-label">Feature Engineering</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-best-f1">—</div><div class="stat-label">Best F1 Score</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-partitions">—</div><div class="stat-label">Spark Partitions</div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section id="eda" class="section">
+    <h2>Dataset &amp; Exploratory Analysis</h2>
+    <p class="section-sub">Loaded, cleaned and explored with Spark DataFrame operations (select, filter, groupBy, withColumn).</p>
+    <div class="grid-2">
+      <div class="card chart-card">
+        <h3>Sentiment Class Distribution</h3>
+        <canvas id="chart-class"></canvas>
+      </div>
+      <div class="card chart-card">
+        <h3>Review Length Distribution</h3>
+        <canvas id="chart-length"></canvas>
+      </div>
+    </div>
+    <div class="card chart-card" style="margin-top:20px;">
+      <h3>Most Frequent Words (sampled, stopwords removed)</h3>
+      <canvas id="chart-words"></canvas>
+    </div>
+  </section>
+
+  <section id="models" class="section">
+    <h2>Model Comparison</h2>
+    <p class="section-sub">Logistic Regression · Naive Bayes · Random Forest — trained inside one reproducible Spark ML Pipeline.</p>
+    <div class="table-wrap">
+      <table id="model-table">
+        <thead>
+          <tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th><th>ROC-AUC</th><th>Train Time (s)</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="grid-2" style="margin-top:20px;">
+      <div class="card chart-card">
+        <h3>Metric Comparison</h3>
+        <canvas id="chart-metrics"></canvas>
+      </div>
+      <div class="card chart-card">
+        <h3>ROC Curves</h3>
+        <canvas id="chart-roc"></canvas>
+      </div>
+    </div>
+    <div class="card chart-card" style="margin-top:20px;">
+      <h3>Training Time vs Dataset Size</h3>
+      <canvas id="chart-scaling"></canvas>
+    </div>
+    <div class="grid-3" id="confusion-grid" style="margin-top:20px;"></div>
+  </section>
+
+  <section id="analyzer" class="section">
+    <h2>Live Sentiment Analyzer</h2>
+    <p class="section-sub">Runs through the real trained Spark pipeline — not a hardcoded rule.</p>
+    <div class="card analyzer-card">
+      <textarea id="review-input" placeholder="Enter a product review...">The product quality is excellent and delivery was extremely fast.</textarea>
+      <div class="examples">
+        <span class="example-chip" data-text="The product quality is excellent and delivery was extremely fast.">Great delivery</span>
+        <span class="example-chip" data-text="Terrible build quality, it broke after two days of use.">Bad build quality</span>
+        <span class="example-chip" data-text="Decent for the price but the packaging was damaged.">Mixed review</span>
+      </div>
+      <button id="analyze-btn">Analyze Review</button>
+      <div id="result-box" class="result-box hidden">
+        <div class="result-sentiment" id="result-sentiment">—</div>
+        <div class="result-bar-wrap">
+          <div class="result-bar-label">Negative <span id="prob-neg-label"></span></div>
+          <div class="result-bar"><div class="result-bar-fill neg" id="bar-neg"></div></div>
+          <div class="result-bar-label">Positive <span id="prob-pos-label"></span></div>
+          <div class="result-bar"><div class="result-bar-fill pos" id="bar-pos"></div></div>
+        </div>
+        <div class="result-meta" id="result-meta"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="insights" class="section">
+    <h2>Business Insights</h2>
+    <p class="section-sub">Derived from the actual analyzed dataset, not assumptions.</p>
+    <div class="grid-3" id="insights-grid"></div>
+  </section>
+
+  <section id="errors" class="section">
+    <h2>Error Analysis</h2>
+    <p class="section-sub">Reviews the best model misclassified — useful for the "why does ML fail" viva question.</p>
+    <div id="errors-list"></div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  Big Data Analytics Mini Project · Apache Spark · Spark MLlib · TF‑IDF · Flask
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
