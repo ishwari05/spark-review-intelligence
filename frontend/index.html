@@ -31,17 +31,16 @@
 
 <header class="hero" id="overview">
   <div class="hero-inner">
-    <h1>Scalable Product Review Intelligence</h1>
-    <p>An end-to-end Big Data sentiment intelligence system — Apache Spark distributed
-    processing, TF‑IDF feature engineering, and three Spark MLlib classifiers, trained
-    on real product review data.</p>
+    <p class="eyebrow">Scalable Product Review Intelligence</p>
+    <h1>Product Review Intelligence</h1>
+    <p>An end-to-end Spark ML workflow that benchmarks multiple classifiers, mines product pain points, and visualizes the final results from the repository's generated model outputs.</p>
     <div class="stat-row" id="hero-stats">
-      <div class="stat-card"><div class="stat-value" id="stat-rows">—</div><div class="stat-label">Reviews Processed</div></div>
-      <div class="stat-card"><div class="stat-value">3</div><div class="stat-label">Spark MLlib Models</div></div>
-      <div class="stat-card"><div class="stat-value">5</div><div class="stat-label">Product Aspects (ABSA)</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-reviews">—</div><div class="stat-label">Reviews Analyzed</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-positive">—</div><div class="stat-label">Positive %</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-negative">—</div><div class="stat-label">Negative %</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-best-model">—</div><div class="stat-label">Best Model</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-best-accuracy">—</div><div class="stat-label">Best Accuracy</div></div>
       <div class="stat-card"><div class="stat-value" id="stat-aspect-mentions">—</div><div class="stat-label">Aspect Mentions</div></div>
-      <div class="stat-card"><div class="stat-value" id="stat-complaints">—</div><div class="stat-label">Mined Complaints</div></div>
-      <div class="stat-card"><div class="stat-value" id="stat-best-f1">—</div><div class="stat-label">Best F1 Score</div></div>
     </div>
   </div>
 </header>
@@ -69,7 +68,7 @@
 
   <section id="models" class="section">
     <h2>Model Comparison</h2>
-    <p class="section-sub">Logistic Regression · Naive Bayes · Random Forest — trained inside one reproducible Spark ML Pipeline.</p>
+    <p class="section-sub">Actual benchmark values from the final pipeline run: Logistic Regression was the top performer by F1 score.</p>
     <div class="table-wrap">
       <table id="model-table">
         <thead>

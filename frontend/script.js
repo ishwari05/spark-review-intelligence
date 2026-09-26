@@ -38,17 +38,24 @@ function render(data) {
 }
 
 function renderHeroStats(data) {
-  document.getElementById('stat-rows').textContent = data.eda.total_rows.toLocaleString();
+  const totalReviews = data.eda.total_rows;
+  const positiveReviews = data.eda.class_distribution.positive || 0;
+  const negativeReviews = data.eda.class_distribution.negative || 0;
   const best = data.models.find(m => m.name === data.best_model);
-  document.getElementById('stat-best-f1').textContent = best ? best.f1.toFixed(3) : '—';
-  if (document.getElementById('stat-aspect-mentions')) {
-    document.getElementById('stat-aspect-mentions').textContent = data.absa ? data.absa.total_aspect_mentions.toLocaleString() : '—';
-  }
-  if (document.getElementById('stat-complaints')) {
-    const cm = data.complaint_mining;
-    document.getElementById('stat-complaints').textContent =
-      cm ? (cm.top_complaints || []).length.toLocaleString() : '—';
-  }
+  document.getElementById('stat-reviews').textContent = totalReviews.toLocaleString();
+  document.getElementById('stat-positive').textContent = totalReviews
+    ? `${(positiveReviews / totalReviews * 100).toFixed(1)}%`
+    : '—';
+  document.getElementById('stat-negative').textContent = totalReviews
+    ? `${(negativeReviews / totalReviews * 100).toFixed(1)}%`
+    : '—';
+  document.getElementById('stat-best-model').textContent = data.best_model;
+  document.getElementById('stat-best-accuracy').textContent = best
+    ? `${(best.accuracy * 100).toFixed(1)}%`
+    : '—';
+  document.getElementById('stat-aspect-mentions').textContent = data.absa
+    ? data.absa.total_aspect_mentions.toLocaleString()
+    : '—';
 }
 
 function renderEDA(eda) {

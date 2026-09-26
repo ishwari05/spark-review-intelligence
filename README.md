@@ -142,15 +142,15 @@ Unigram representations model individual terms independently, while bigrams capt
 
 ## Machine Learning Models & Evaluation
 
-The system evaluates three Spark MLlib classifiers:
+The final repository run compared three Spark MLlib classifiers and selected the best performer using the measured benchmark values in `results/results.json`.
 
 | Model | Feature Representation | Accuracy | Precision | Recall | F1 | ROC-AUC | Training Time | Prediction Time |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
-| **Naive Bayes** | Unigram TF-IDF | **0.7767** | **0.7770** | **0.7767** | **0.7764** | **0.8541** | **1.56 s** | 0.44 s |
-| Logistic Regression | Unigram + Bigram TF-IDF | 0.7634 | 0.7636 | 0.7634 | 0.7634 | 0.8331 | 5.47 s | 0.62 s |
-| Random Forest | Unigram + Bigram TF-IDF | 0.6376 | 0.7429 | 0.6376 | 0.5884 | 0.7800 | 71.44 s | 0.46 s |
+| Naive Bayes | Unigram TF-IDF | 0.7644 | 0.7645 | 0.7644 | 0.7642 | 0.8377 | 0.75 s | 0.27 s |
+| **Logistic Regression** | Unigram + Bigram TF-IDF | **0.7660** | **0.7662** | **0.7660** | **0.7661** | **0.8347** | **4.79 s** | **0.48 s** |
+| Random Forest | Unigram + Bigram TF-IDF | 0.6494 | 0.7400 | 0.6494 | 0.6083 | 0.7792 | 68.05 s | 0.47 s |
 
-**Selected Model:** Multinomial Naive Bayes using Unigram TF-IDF was selected based on having the highest measured accuracy (0.7767), highest ROC-AUC (0.8541), and fastest training time (1.56 s) among the evaluated models.
+**Selected Model:** Logistic Regression was the best model in the repository's final run based on the highest measured F1 score, 0.7661. The repository output uses this value as the benchmark winner for the generated results.
 
 ---
 
@@ -198,14 +198,14 @@ The ABSA module defines five configurable aspect dictionaries in `absa.py`:
 
 ## Error Analysis
 
-Quantitative findings on the held-out test set (33,410 reviews):
+Quantitative findings on the final held-out test set (33,410 reviews):
 
-- **Correct predictions:** 25,537
-- **Incorrect predictions:** 7,873
-- **Overall error rate:** 23.56%
+- **Correct predictions:** 25,593
+- **Incorrect predictions:** 7,817
+- **Overall error rate:** 23.40%
 - **Negation review proportion:** 10.38% of test data
-- **Negation review proportion among errors:** 16.02%
-- **Error rate on negation reviews:** 36.35%
+- **Negation review proportion among errors:** 15.34%
+- **Error rate on negation reviews:** 34.56%
 
 This highlights a known limitation of unigram representations: without explicit negation modeling, words like "not" and "good" are treated independently, which can lead to polarity inversion errors.
 
