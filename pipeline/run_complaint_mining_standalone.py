@@ -8,7 +8,7 @@ import pandas as pd
 from pyspark.sql import SparkSession
 from datasets import load_dataset as hf_load_dataset
 
-from complaint_mining import (
+from backend.services.complaint_mining import (
     mine_negative_complaints_spark,
     run_spark_lda_topics,
     generate_complaint_figures,

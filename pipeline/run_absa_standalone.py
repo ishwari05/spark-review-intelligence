@@ -8,7 +8,7 @@ from pyspark.sql import SparkSession
 from pyspark.ml import PipelineModel
 from datasets import load_dataset as hf_load_dataset
 
-from absa import run_spark_absa, generate_absa_figures
+from backend.services.absa import run_spark_absa, generate_absa_figures
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 RESULTS_DIR = os.path.join(BASE_DIR, "results")

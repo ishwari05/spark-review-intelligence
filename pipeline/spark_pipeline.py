@@ -835,7 +835,7 @@ def main():
     insights = generate_business_insights(df, best, top_pos, top_neg)
 
     # 4. Aspect-Based Sentiment Analysis (ABSA)
-    from absa import run_spark_absa, generate_absa_figures
+    from backend.services.absa import run_spark_absa, generate_absa_figures
     log("Running Aspect-Based Sentiment Analysis (ABSA) on Spark DataFrame...")
     absa_df, absa_summary = run_spark_absa(spark, df, best_model)
     log(f"ABSA completed: {absa_summary['total_aspect_mentions']:,} total aspect mentions found.")
@@ -848,7 +848,7 @@ def main():
     log(f"Aspect sentiment sample CSV saved to {csv_path}")
 
     # 5. Topic & Customer Complaint Mining (Negative Reviews)
-    from complaint_mining import (
+    from backend.services.complaint_mining import (
         mine_negative_complaints_spark,
         run_spark_lda_topics,
         generate_complaint_figures,

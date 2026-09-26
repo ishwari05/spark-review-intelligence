@@ -2,7 +2,7 @@
 Unit test for API and ABSA functionality
 """
 import json
-from api import app
+from backend.api import app
 
 client = app.test_client()
 

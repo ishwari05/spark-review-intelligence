@@ -21,8 +21,8 @@ from flask import Flask, jsonify, request, send_from_directory
 from pyspark.sql import SparkSession
 from pyspark.ml import PipelineModel
 
-from absa import predict_aspects_for_review
-from complaint_mining import extract_complaints_from_text
+from backend.services.absa import predict_aspects_for_review
+from backend.services.complaint_mining import extract_complaints_from_text
 
 BASE_DIR = os.path.dirname(__file__)
 MODEL_DIR = os.path.join(BASE_DIR, "saved_model")

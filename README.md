@@ -46,33 +46,40 @@ flowchart LR
 
 ## Project Structure
 
-Current core project structure:
+Current project structure:
 
 ```
 product-review-intelligence/
 │
-├── spark_pipeline.py            # Main Spark ML pipeline (training, evaluation, ABSA, export)
-├── absa.py                      # Aspect-Based Sentiment Analysis module
-├── api.py                       # Flask backend API & model serving
-├── requirements.txt             # Python dependencies
-├── results.json                 # Consolidated experiment results & ABSA analytics
-├── saved_model/                 # Saved Spark PipelineModel (Tokenizer -> CountVec -> IDF -> Model)
+├── backend/
+│   ├── api.py                   # Flask API and model serving
+│   ├── model/
+│   │   └── saved_model/         # Saved Spark PipelineModel
+│   └── services/
+│       ├── absa.py              # Aspect-Based Sentiment Analysis
+│       └── complaint_mining.py  # Complaint extraction and topic modeling
 │
-└── results/
-    ├── aspect_sentiment.csv     # Extracted aspect mentions, contexts, and sentiment scores
-    └── figures/
-        ├── model_accuracy_comparison.png
-        ├── model_f1_comparison.png
-        ├── model_roc_auc_comparison.png
-        ├── model_train_time_comparison.png
-        ├── sentiment_distribution.png
-        ├── confusion_matrix_best_model.png
-        ├── roc_curve_best_model.png
-        ├── top_positive_terms.png
-        ├── top_negative_terms.png
-        ├── aspect_sentiment_distribution.png
-        ├── aspect_negative_rate.png
-        └── aspect_mentions.png
+├── docs/
+│   └── FINAL_REPORT.md          # Final project report
+├── frontend/
+│   ├── index.html               # Dashboard page
+│   ├── script.js                # Dashboard rendering and interactions
+│   └── style.css                # Dashboard styling
+├── pipeline/
+│   ├── spark_pipeline.py        # Main training and analysis pipeline
+│   ├── run_absa_standalone.py   # Standalone ABSA runner
+│   └── run_complaint_mining_standalone.py
+├── results/
+│   ├── results.json             # Consolidated generated analysis
+│   ├── best_model_name.txt      # Selected model name
+│   ├── aspect_sentiment.csv     # Aspect sentiment output
+│   ├── complaints.csv           # Mined complaint phrases
+│   ├── topics.csv               # LDA topic output
+│   └── figures/                 # Generated charts
+├── test/
+│   └── test_absa_api.py          # ABSA and API tests
+├── requirements.txt             # Python dependencies
+└── README.md
 ```
 
 ---
