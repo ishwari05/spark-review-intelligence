@@ -58,15 +58,10 @@ from pyspark.ml.evaluation import (
 # --------------------------------------------------------------------------
 # Config
 # --------------------------------------------------------------------------
-SAMPLE_SIZE = 100000          # Reduced to avoid OutOfMemoryError and timeouts
+SAMPLE_SIZE = 1000000          # Reduced to avoid OutOfMemoryError and timeouts
 TEST_FRACTION = 0.2
 SEED = 42
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-import sys
-PROJECT_ROOT = os.path.abspath(os.path.join(BASE_DIR, ".."))
-if PROJECT_ROOT not in sys.path:
-    sys.path.append(PROJECT_ROOT)
-os.environ["PYTHONPATH"] = PROJECT_ROOT + ":" + os.environ.get("PYTHONPATH", "")
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
 FIGURES_DIR = os.path.join(RESULTS_DIR, "figures")
 MODEL_DIR = os.path.join(BASE_DIR, "saved_model")

@@ -1,390 +1,281 @@
-# Scalable Product Review Intelligence Using Apache Spark and Machine Learning
+# ReviewIQ
 
-The project implements a scalable product-review sentiment classification, Aspect-Based Sentiment Analysis (ABSA), and business intelligence analytics system using Apache Spark and Spark MLlib.
+ReviewIQ is a review intelligence platform for e-commerce platforms and seller organizations. It combines a Flask backend, a Supabase/PostgreSQL-ready data layer, and a Spark ML pipeline to analyze customer reviews, surface aspect-level sentiment, and expose tenant-aware dashboards for platform and seller users.
 
-The system processes large-scale Amazon product review datasets, performs distributed preprocessing and NLP feature extraction, trains multiple Spark MLlib classifiers, conducts empirical error analysis, performs fine-grained aspect detection and aspect-level sentiment classification, flags potential customer pain points, and serves both the trained model and aspect analytics through a Flask API and an interactive web dashboard.
+This repository contains the currently implemented application code rather than a purely experimental notebook workflow. The live app entry point is `api.py`, the main business logic sits under `backend/`, the ML pipeline and saved artifacts live under `pipeline/`, and the data model is defined in `supabase/migrations/`.
 
----
+## Current implementation status
 
-## Project Architecture
+The current codebase includes:
 
-### End-to-End System Architecture
+- A Flask API with protected multi-tenant routes for authentication, products, reviews, platform dashboards, seller dashboards, and settings.
+- JWT-based authentication and role enforcement in `backend/auth.py`.
+- A database layer that supports Supabase PostgreSQL and a local/dev fallback path.
+- Organization and product-level access control for `platform` and `seller` accounts.
+- A live Spark pipeline model loaded from `saved_model_phase4/`.
+- Aspect-based sentiment analysis and complaint mining services.
+- A static frontend dashboard shell served by the Flask app.
 
-```mermaid
-flowchart TD
-    A[Amazon Product Reviews] --> B[Streaming Ingestion & Spark DataFrame]
-    B --> C[Distributed Preprocessing & Cleaning]
-    C --> D[NLP Feature Engineering: TF-IDF]
-    D --> E[Spark MLlib Model Training & Evaluation]
-    E --> F[Aspect Detection & Clause Context Extraction]
-    F --> G[Aspect-Level Sentiment Scoring via Spark Pipeline]
-    G --> H[Distributed Aspect Analytics & Pain Point Detection]
-    H --> I[Saved Spark PipelineModel & Results]
-    I --> J[Flask REST API: /api/results, /api/aspects, /api/predict]
-    J --> K[Interactive Web Dashboard: Chart.js]
-```
-
-### Sentiment & ABSA Processing Flow
-
-```mermaid
-flowchart LR
-    subgraph Review Level
-        R[Raw Review] --> Clean[Clean Text] --> TFIDF[TF-IDF Pipeline] --> ML[Best MLlib Classifier] --> Overall[Overall Sentiment]
-    end
-
-    subgraph Aspect Level ABSA
-        R --> Split[Clause/Sentence Splitting]
-        Split --> Match[Aspect Dictionary Matching]
-        Match --> Explode[Spark Explode by Aspect]
-        Explode --> ContextML[Fitted Model Scoring]
-        ContextML --> AspectAgg[Distributed Aggregation]
-        AspectAgg --> PainPoints[Customer Pain Points]
-    end
-```
+This README describes what is implemented in the repository today. It does not describe a future roadmap or aspirational architecture unless a corresponding implementation already exists in the codebase.
 
 ---
 
-## Project Structure
+## Architecture and repository layout
 
-Current project structure:
-
-```
-product-review-intelligence/
-│
-├── backend/
-│   ├── api.py                   # Flask API and model serving
-│   ├── model/
-│   │   └── saved_model/         # Saved Spark PipelineModel
-│   └── services/
-│       ├── absa.py              # Aspect-Based Sentiment Analysis
-│       └── complaint_mining.py  # Complaint extraction and topic modeling
-│
-├── docs/
-│   └── FINAL_REPORT.md          # Final project report
-├── frontend/
-│   ├── index.html               # Dashboard page
-│   ├── script.js                # Dashboard rendering and interactions
-│   └── style.css                # Dashboard styling
-├── pipeline/
-│   ├── spark_pipeline.py        # Main training and analysis pipeline
-│   ├── run_absa_standalone.py   # Standalone ABSA runner
-│   └── run_complaint_mining_standalone.py
-├── results/
-│   ├── results.json             # Consolidated generated analysis
-│   ├── best_model_name.txt      # Selected model name
-│   ├── aspect_sentiment.csv     # Aspect sentiment output
-│   ├── complaints.csv           # Mined complaint phrases
-│   ├── topics.csv               # LDA topic output
-│   └── figures/                 # Generated charts
-├── test/
-│   └── test_absa_api.py          # ABSA and API tests
-├── requirements.txt             # Python dependencies
-└── README.md
-```
+- `api.py` — Flask application entry point and live endpoints.
+- `backend/` — auth, repository/data access, and route modules.
+- `backend/services/absa.py` — aspect-based sentiment extraction.
+- `backend/services/complaint_mining.py` — negative phrase and complaint mining logic.
+- `pipeline/` — Spark preprocessing and experiment runners, plus saved model artifacts.
+- `saved_model_phase4/` — current production model bundle used by the API.
+- `supabase/migrations/` — actual schema and row-level security definitions.
+- `frontend/` — static dashboard UI shell and client-side logic.
+- `test/` — Python unittest coverage for auth, tenancy, and live prediction flows.
 
 ---
 
-## Dataset
+## Product capabilities
 
-Dataset: **Amazon Polarity**
+### 1. Multi-tenant review intelligence
 
-Loaded using Hugging Face datasets with streaming:
+The app models two organization types:
 
-```python
-load_dataset("amazon_polarity", split="train", streaming=True)
-```
+- `platform` organizations: marketplace operators that can view aggregated intelligence across managed sellers.
+- `seller` organizations: brands that can view only their own products and reviews.
 
-**Experimental Setup:**
-- 200,000 reviews sampled from the streaming dataset
-- 168,676 reviews after distributed cleaning and deduplication
-- 80/20 train-test split (random seed = 42)
+The backend enforces this through server-side organization resolution and permission checks in `backend/auth.py` and the repository layer. The database schema also defines `platform_sellers` mapping records and `organization_members` role assignments.
 
-Amazon Polarity is a binary sentiment benchmark where:
-- 1–2 star reviews → **Negative** (label 0)
-- 4–5 star reviews → **Positive** (label 1)
-- 3-star reviews are excluded to eliminate ambiguous ratings
+### 2. Authentication and role enforcement
 
----
+The current auth layer includes:
 
-## Spark Configuration
+- JWT verification for bearer tokens.
+- Local demo tokens for testing and demonstration flows.
+- Role-based access control for `owner`, `admin`, `analyst`, and `viewer`.
+- Server-side enforcement that prevents frontend-supplied organization IDs from being trusted.
 
-- `SparkSession`: `.master("local[*]")`
-- Spark driver memory: `4g`
-- Spark SQL shuffle partitions: `8`
+The auth system explicitly distinguishes platform and seller authorization and rejects unauthorized cross-tenant access with 401 or 403 responses.
 
-`local[*]` instructs Spark to utilize all available local CPU cores for multi-threaded distributed processing. Spark DataFrames and MLlib pipelines leverage Spark's distributed execution engine, lazy evaluation, and query optimization even in local mode, without requiring code changes to scale to a multi-node cluster.
+### 3. Product and review management
 
----
+The repository includes data modeling for:
 
-## Text Preprocessing
+- organizations
+- platform-to-seller relationships
+- products
+- datasets
+- reviews
+- analyses
+- aspect results
+- issue results
+- user preferences
+- audit logs
 
-All preprocessing is performed in parallel on Spark DataFrames:
+The actual schema is defined in `supabase/migrations/001_initial_schema.sql` and the row-level security policies are in `supabase/migrations/002_rls_policies.sql`.
 
-**Phase 1 Advanced Preprocessing (Variant C — selected winner):**
-- **Contraction Expansion:** `won't` → `will not`, `can't` → `cannot`, 30+ rules applied with Spark regex (before tokenization)
-- **Sentiment-Preserved Stop Words:** Negation words (`not`, `never`, `no`, `hardly`, `barely`, etc.) are excluded from the default stop-words list so they are retained after tokenization
-- **Negation Marking:** Paired negation + following token get merged → `"not good"` → `"not_good"`, capturing polarity signals as single tokens
-- **Standard cleaning:** Lowercase, strip non-alphanumeric characters, collapse whitespace
+### 4. Sentiment analysis and ABSA
 
-**Phase 4 Data Enrichment (key breakthrough):**
-- **Title + Body Concatenation:** Prepends the review `title` to the review `content` before preprocessing. The body field alone was heavily truncated (99.7% of reviews < 15 words in the original dataset). Adding the title provided the rich context needed to break past the ~79% ceiling.
+The app loads a Spark-based sentiment pipeline from `saved_model_phase4/` and serves live review inference. The repository also includes aspect extraction via `backend/services/absa.py`, which identifies aspect phrases such as:
 
----
+- Battery
+- Build Quality
+- Price / Value
+- Customer Support
+- Delivery / Packaging
 
-## Feature Engineering
+### 5. Complaint mining and issue discovery
 
-**Phase 2 Best Feature Pipeline (winner, applied in all subsequent phases):**
-```
-Tokenizer → StopWordsRemover (custom, negation-preserving)
-         → NGram(n=2) → CountVectorizer (bigrams, vocabSize=50,000, minDF=5)
-                      → IDF (bigram_features)
-         → CountVectorizer (unigrams, vocabSize=50,000, minDF=5)
-                      → IDF (unigram_features)
-         → VectorAssembler([unigram_features, bigram_features]) → Classifier
-```
-Vocabulary of 50,000 unigrams + 50,000 bigrams with minimum document frequency of 5 was selected via Phase 2 empirical experiments over 7 TF-IDF configurations.
+A separate complaint-mining service identifies negative phrases and organizes them into issue themes. The repository contains complaint mining code in `backend/services/complaint_mining.py` and result tables such as `issue_results` in the database schema.
+
+### 6. Dashboard and reporting
+
+The frontend shell is a static dashboard interface served by Flask. It is built around the actual backend metrics and analytics routes rather than a separate JavaScript application framework. The current project includes dashboard views for overview metrics, seller/platform intelligence, and review-level analysis.
 
 ---
 
-## Multi-Phase Improvement Journey
+## Verified model status
 
-All phases keep the same dataset, train/test split (80/20, seed=42), and evaluation methodology.
+The live model used by the application is a saved Spark `PipelineModel` from `saved_model_phase4/`. It is a tuned logistic regression trained with the repository’s Phase 4 configuration.
 
-| Phase | What Changed | Best Accuracy | Δ |
-|---|---|---:|---:|
-| **Baseline** | Unigram TF-IDF (20k vocab) + Logistic Regression | 76.6% | — |
-| **Phase 1** | Advanced preprocessing (contraction + negation marking) | 78.96% | +2.36 pp |
-| **Phase 2** | Unigram + Bigram TF-IDF (50k vocab, minDF=5) | 78.96% | ≈ 0 pp |
-| **Phase 3** | Tuned Logistic Regression (regParam=0.5, maxIter=200) | 86.71% | +7.75 pp |
-| **Phase 4** | Title + Content concatenation (data enrichment) | **90.55%** | **+3.84 pp** |
+Verified repository metrics from `results/phase4_summary.md`:
 
-> **Root cause discovery:** The Amazon Polarity `content` field is heavily truncated — 99.7% of reviews were under 15 words. Prepending the `title` provided the missing rich signal that unlocked the 90%+ accuracy ceiling.
+- Model: Tuned Logistic Regression
+- Accuracy: 0.9055 (90.55%)
+- F1: 0.9054
+- ROC-AUC: 0.9636
+- Dataset size: 100,000 rows (Amazon Polarity sample)
+- Feature representation: unigram + bigram TF-IDF
+- Train/test split: 80/20 with seed 42
 
----
-
-## Machine Learning Models & Evaluation
-
-The final pipeline compared four Spark MLlib classifiers using the Phase 4 enriched dataset:
-
-| Model | Feature Representation | Accuracy | Precision | Recall | F1 | ROC-AUC | Training Time |
-|---|---|---:|---:|---:|---:|---:|---:|
-| Naive Bayes (baseline) | Unigram TF-IDF (20k) | 0.7644 | 0.7645 | 0.7644 | 0.7642 | 0.8377 | 0.75 s |
-| Logistic Regression (baseline) | Unigram + Bigram TF-IDF | 0.7660 | 0.7662 | 0.7660 | 0.7661 | 0.8347 | 4.79 s |
-| Naive Bayes (Phase 4) | Unigram + Bigram TF-IDF (50k) | 0.8812 | 0.8815 | 0.8812 | 0.8812 | 0.9353 | 8.95 s |
-| **Tuned Logistic Regression** | **Unigram + Bigram TF-IDF (50k, minDF=5)** | **0.9055** | **0.9055** | **0.9055** | **0.9054** | **0.9636** | **16.93 s** |
-
-**Selected Model:** Tuned Logistic Regression (`regParam=0.5`, `elasticNetParam=0.0`, `maxIter=200`) — best measured accuracy **90.55%** and ROC-AUC **0.9636** on the untouched test set.
+The Phase 4 summary also records that the tuned model was selected after validation and then evaluated once on the untouched test set.
 
 ---
 
-## Aspect-Based Sentiment Analysis (ABSA)
+## Data and persistence model
 
-### Motivation
+The current repository is wired for a multi-tenant SaaS setup backed by Supabase PostgreSQL and ready for server-side auth. The core schema includes the following tables in the migration set:
 
-Traditional sentiment analysis answers:
-> *"Is this review positive or negative overall?"*
+- `profiles`
+- `organizations`
+- `organization_members`
+- `platform_sellers`
+- `organization_invitations`
+- `products`
+- `datasets`
+- `reviews`
+- `analyses`
+- `aspect_results`
+- `issue_results`
+- `user_preferences`
+- `audit_logs`
 
-Aspect-Based Sentiment Analysis (ABSA) answers:
-> *"What specific product aspects are customers talking about, and what sentiment is expressed toward each aspect?"*
-
-### Example
-
-> **Customer Review:**  
-> *"The battery life is terrible but the build quality is excellent."*
->
-> - **Overall Sentiment:** Negative (or mixed)
-> - **Aspect-Level Analysis:**
->   - **Battery:** Negative (Context: *"The battery life is terrible"*)
->   - **Build Quality:** Positive (Context: *"the build quality is excellent"*)
-
-### Product Aspects & Domain Dictionaries
-
-The ABSA module defines five configurable aspect dictionaries in `absa.py`:
-
-1. **Battery:** `battery`, `battery life`, `charging`, `charger`, `charge`, `power`, `drains`, `charging speed`
-2. **Build Quality:** `build`, `quality`, `material`, `durable`, `durability`, `plastic`, `metal`, `design`, `construction`
-3. **Price / Value:** `price`, `cost`, `expensive`, `cheap`, `affordable`, `value`, `worth`, `money`
-4. **Customer Support:** `support`, `customer service`, `service`, `representative`, `agent`, `help`, `response`, `refund`
-5. **Delivery / Packaging:** `delivery`, `shipping`, `package`, `packaging`, `box`, `courier`, `arrived`, `delivery time`
-
-### Scalable Implementation Details
-
-1. **Sentence/Clause Context Extraction:** Reviews are split by punctuation and contrastive conjunctions (`but`, `however`, `although`, `yet`) to isolate aspect-specific clauses.
-2. **Structured Aspect Output DataFrame:** Spark transforms the reviews into an exploded DataFrame with schema:
-   `[review, aspect, context, sentiment, sentiment_score]`
-   A single review discussing multiple aspects produces multiple distinct rows.
-3. **Fitted Model Reuse:** Aspect contexts are passed through the existing fitted Spark MLlib `PipelineModel` for distributed scoring, avoiding the overhead of training separate models for each aspect.
-4. **Distributed Aggregation:** Spark SQL aggregates total mentions, positive mentions, negative mentions, and negative feedback rates per aspect.
-5. **Customer Pain Point Identification:** Aspects with significant mention volume and a negative feedback rate $\ge 40\%$ are automatically flagged as **Potential Customer Pain Points**.
+This is the actual implementation in the repo. The project also contains a SQLite/dev fallback path in the backend data layer, but the formal schema defined for the product is the Supabase/PostgreSQL design above.
 
 ---
 
-## Error Analysis
+## API surface
 
-Quantitative findings on the Phase 4 held-out test set (19,810 reviews):
+The current backend registers a set of authenticated endpoints. The main route groups are:
 
-- **Correct predictions:** 17,937
-- **Incorrect predictions:** 1,873
-- **Overall error rate:** 9.45%
-- **Reviews with negation:** 0.31% of test data
-- **Negation error rate:** 12.90%
-- **Long review error rate (> 50 words):** 9.9%  
-- **Medium review error rate (15–50 words):** 8.4%
+### Authentication and session
 
-At 90.55% accuracy the dominant remaining failure mode is **complex semantic nuance** in long reviews (mixed opinions, sarcasm, irony) rather than simple negation mishandling.
+- `GET /api/config`
+- `POST /api/auth/signup`
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+- `POST /api/auth/logout`
 
----
+### Platform dashboard
 
-## Visualizations
+- `GET /api/platform/overview`
+- `GET /api/platform/sellers`
+- `POST /api/platform/sellers`
+- `GET /api/platform/sellers/<seller_id>`
+- `GET /api/platform/analytics`
 
-The pipeline generates 12 presentation-quality figures in `results/figures/`:
+### Seller dashboard
 
-| Figure | Description |
-|---|---|
-| `model_accuracy_comparison.png` | Accuracy comparison across evaluated classifiers |
-| `model_f1_comparison.png` | Weighted F1-score comparison across models |
-| `model_roc_auc_comparison.png` | ROC-AUC comparison across models |
-| `model_train_time_comparison.png` | Training time comparison (log scale) |
-| `sentiment_distribution.png` | Class distribution pie chart of cleaned reviews |
-| `confusion_matrix_best_model.png` | Confusion matrix heatmap for the selected model |
-| `roc_curve_best_model.png` | ROC curve with AUC annotation |
-| `top_positive_terms.png` | Top discriminative positive terms by model weight |
-| `top_negative_terms.png` | Top discriminative negative terms by model weight |
-| `aspect_sentiment_distribution.png` | Stacked bar chart of Positive vs. Negative % per aspect |
-| `aspect_negative_rate.png` | Negative feedback rate (%) per aspect with pain point threshold |
-| `aspect_mentions.png` | Total customer mention volume by product aspect |
+- `GET /api/seller/overview`
+- `GET /api/seller/analytics`
 
----
+### Product operations
 
-## Model Serving & API
+- `GET /api/products`
+- `POST /api/products`
+- `GET /api/products/<product_id>`
 
-The Flask backend (`api.py`) loads the Phase 4 Spark `PipelineModel` (Tuned Logistic Regression, 90.55%) and serves three REST endpoints:
+### Review operations
 
-### 1. `GET /api/results`
-Returns the complete serialized experiment metrics, error report, and ABSA analytics from `results/results.json`.
+- `GET /api/reviews`
+- `POST /api/reviews/upload`
+- `POST /api/reviews/import`
 
-### 2. `GET /api/aspects`
-Returns calculated aspect-level analytics and customer pain points.
+### Settings and admin flows
 
-### 3. `POST /api/predict`
-Accepts a raw review text, performs live Phase 4 Spark pipeline scoring (contraction expansion → negation marking → Unigram + Bigram TF-IDF → Tuned LR), and returns overall sentiment plus fine-grained aspect breakdowns.
+- `GET /api/settings/team`
+- `GET /api/settings/invitations`
+- `POST /api/settings/invite`
+- `GET /api/settings/audit`
 
-**Request:**
-```json
-{
-  "review": "The battery life is terrible but the build quality is excellent."
-}
-```
+### Live model inference and analytics
 
-**Response:**
-```json
-{
-  "sentiment": "NEGATIVE",
-  "confidence": 99.2,
-  "prob_positive": 0.8,
-  "prob_negative": 99.2,
-  "model_used": "Tuned Logistic Regression",
-  "aspects": [
-    {
-      "aspect": "Battery",
-      "sentiment": "NEGATIVE",
-      "confidence": 100.0,
-      "context": "The battery life is terrible"
-    },
-    {
-      "aspect": "Build Quality",
-      "sentiment": "POSITIVE",
-      "confidence": 93.9,
-      "context": "the build quality is excellent"
-    }
-  ]
-}
-```
+- `POST /api/predict`
+- `GET /api/results`
+- `GET /api/aspects`
+- `GET /api/complaints`
+- `GET /api/topics`
+- `GET /api/dashboard`
+
+In addition to these, the app serves the dashboard shell and auth pages from `api.py` and the static frontend files.
 
 ---
 
-## Interactive Dashboard
+## Frontend and dashboard
 
-The dashboard (`index.html`, `style.css`, `script.js`) provides an interactive interface built with vanilla HTML5/CSS3/ES6 and Chart.js:
+The frontend is a static HTML/CSS/JavaScript dashboard served by Flask. The key app files are:
 
-- **Executive Overview & KPI Cards:** Real-time stats on reviews processed, models trained, aspects monitored, and best F1 score.
-- **Exploratory Data Analysis:** Class distribution and review length histograms.
-- **Model Benchmark Suite:** Interactive metric comparison charts, ROC curves, and confusion matrices.
-- **Aspect Intelligence (ABSA):** Visual sentiment distribution bars, negative rate rankings, mention volume charts, and **Potential Customer Pain Point** alerts.
-- **Live Sentiment & Aspect Analyzer:** Interactive testing tool with mixed-aspect examples that demonstrates both review-level polarity and clause-level aspect detection in real time.
+- `frontend/index.html`
+- `frontend/style.css`
+- `frontend/script.js`
 
----
-
-## Why This Is a Big Data Project
-
-This implementation satisfies all academic Big Data and Machine Learning project requirements:
-
-1. **Large Dataset:** Uses the 3.6M-review Amazon Polarity corpus.
-2. **Distributed Preprocessing:** Advanced NLP preprocessing (contraction expansion, negation marking) executed across Spark partitions with Spark native regex.
-3. **Scalable Machine Learning:** Four-phase empirical experiment pipeline using Apache Spark MLlib (Naive Bayes, Logistic Regression with hyperparameter tuning via TrainValidationSplit, LinearSVC, Naive Bayes).
-4. **Fine-Grained Analytics:** Distributed Aspect-Based Sentiment Analysis and pain point extraction.
-5. **Comprehensive Evaluation:** Accuracy, Precision, Recall, F1, ROC-AUC, training time, and prediction latency across all phases.
-6. **Interpretability & Error Analysis:** Model feature weights, negation inversion error profiling, and 12 visual figures.
+This is a browser-based dashboard shell and client logic for the ReviewIQ app; it is not a separate React or Node service.
 
 ---
 
-## Installation
+## Environment and local setup
 
 ### Prerequisites
+
 - Python 3.9+
-- Java 8 or Java 11 (required by Apache Spark; verify with `java -version`)
+- Java installed for Spark-based local execution
+- A configured `.env` file (optional for local demo mode, required for Supabase-backed flows)
+
+### Install
 
 ```bash
-# 1. Clone repository
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-cd <PROJECT_DIRECTORY>
-
-# 2. Set up virtual environment
+git clone <repository-url>
+cd <repository-folder>
 python3 -m venv .venv
-source .venv/bin/activate    # On Windows: .venv\Scripts\activate
-
-# 3. Install dependencies
+source .venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env
 ```
 
----
+### Run the app
 
-## Running the Project
-
-### Step 1 — Run the Phase 4 ML Pipeline
 ```bash
-python3 pipeline/run_phase4_experiments.py
+source .venv/bin/activate
+python api.py
 ```
-This runs all 4 classifier experiments with hyperparameter tuning, evaluates them, generates figures, writes `results/phase4_results.csv` and `results/phase4_summary.md`, and saves the best model to `saved_model_phase4/`.
 
-> **First-time setup:** If running from scratch, first run `python3 pipeline/spark_pipeline.py` to generate the initial `results/results.json`, ABSA analytics, and complaint mining data.
+The app runs on the default Flask port and can be opened in a browser at the local endpoint created by the app (typically `http://localhost:5000`).
 
-### Step 2 — Start the Dashboard & API
+The repository also includes demo auth tokens in `backend/auth.py`, including platform and seller test tokens such as:
+
+- `demo-platform-token`
+- `demo-seller-aura-token`
+- `demo-seller-aura-viewer-token`
+- `demo-seller-lumina-token`
+
+These are used for local testing and demonstrations.
+
+---
+
+## Testing
+
+The repository includes a Python unittest suite under `test/` covering:
+
+- unauthenticated request enforcement
+- login and profile creation
+- signup flow behavior
+- organization access rules
+- platform vs. seller isolation
+- viewer role restrictions
+- live prediction pipeline execution
+
+The project is executed with:
+
 ```bash
-python3 api.py
-# Or if port 5000 is occupied:
-PORT=8080 python3 api.py
+source .venv/bin/activate
+python -m unittest discover -s test -v
 ```
-Open **http://localhost:5000** (or **http://localhost:8080**) in your browser.
+
+This repository currently contains a test suite with multiple checks in the current workspace. The actual execution in this environment discovered 17 tests and reported 1 failure and 1 error, so the suite is not currently described as fully passing in this README.
 
 ---
 
-## Limitations
+## Project notes and boundaries
 
-1. **Local Mode Execution:** Spark runs in `local[*]` mode. While it uses Spark's distributed DataFrame engine across CPU cores, it is not deployed on a multi-node physical cluster.
-2. **Lexicon-Guided Aspect Scope:** Aspect detection relies on curated keyword dictionaries. Mentions outside these dictionaries are not mapped to an aspect.
-3. **Complex Semantic Nuance:** At 90.55% accuracy, remaining errors are primarily long reviews with mixed opinions, sarcasm, or irony — nuances that still challenge TF-IDF based bag-of-words models.
+The repository includes both application code and historical experimental artifacts:
+
+- `pipeline/` contains the experiment scripts and result files used to compare different feature and model configurations.
+- `saved_model_phase1/`, `saved_model_phase2/`, `saved_model_phase3/`, and `saved_model_phase4/` are model artifacts retained in the repo.
+- The active app is wired to `saved_model_phase4/` via `api.py`.
+
+This is important because the repo contains both a product/workflow layer and a research experiment layer. The product app is the API + backend + data model; the pipeline directories store the model development history.
 
 ---
 
-## Advanced Extensions / Future Scope
+## Summary
 
-- **Aspect-Based Sentiment Analysis** *(Implemented)*
-- **Negation-aware preprocessing** *(Implemented — Phase 1)*
-- **Advanced TF-IDF with 50k vocabulary + bigrams** *(Implemented — Phase 2)*
-- **Hyperparameter tuning with TrainValidationSplit** *(Implemented — Phase 3)*
-- **Title + Content data enrichment** *(Implemented — Phase 4)*
-- **Latent Dirichlet Allocation (LDA)** for unsupervised topic discovery *(Implemented)*
-- **Apache Kafka Integration** for real-time review streaming ingestion
-- **Cloud Cluster Deployment** on AWS EMR, Google Cloud Dataproc, or Databricks
-- **Transformer-based models** (e.g., DistilBERT fine-tuned) for even higher accuracy
+ReviewIQ is a working multi-tenant review analytics application with a live Spark ML inference path, an authenticated API, a product schema for multi-organization data, and a dashboard-oriented frontend. The current repository state is clearly far more than a one-off sentiment classifier: it implements a review intelligence platform with tenant separation, role enforcement, persisted analytics, and model-backed insight generation.
