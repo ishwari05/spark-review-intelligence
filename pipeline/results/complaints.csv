@@ -1,0 +1,26 @@
+phrase,n_gram_type,frequency,percentage,aspect
+waste money,Bigram,288,0.69,Price / Value
+poor quality,Bigram,167,0.4,Build Quality
+worst movie,Bigram,141,0.34,General Dissatisfaction
+worst book,Bigram,95,0.23,General Dissatisfaction
+bad movie,Bigram,66,0.16,General Dissatisfaction
+bad bad,Bigram,56,0.13,General Dissatisfaction
+piece junk,Bigram,52,0.12,General Dissatisfaction
+bad book,Bigram,44,0.1,General Dissatisfaction
+movie bad,Bigram,44,0.1,General Dissatisfaction
+stopped working,Bigram,43,0.1,General Dissatisfaction
+worst movie seen,Trigram,42,0.1,General Dissatisfaction
+worst book read,Trigram,40,0.1,General Dissatisfaction
+worst movies,Bigram,35,0.08,General Dissatisfaction
+bad dvd,Bigram,33,0.08,General Dissatisfaction
+dont waste,Bigram,27,0.06,Price / Value
+total waste,Bigram,25,0.06,Price / Value
+bad quality,Bigram,25,0.06,Build Quality
+horrible horrible,Bigram,25,0.06,General Dissatisfaction
+piece crap,Bigram,24,0.06,General Dissatisfaction
+movie terrible,Bigram,24,0.06,General Dissatisfaction
+complete waste,Bigram,24,0.06,Price / Value
+book bad,Bigram,23,0.05,General Dissatisfaction
+pretty bad,Bigram,23,0.05,General Dissatisfaction
+awful awful,Bigram,23,0.05,General Dissatisfaction
+terrible movie,Bigram,22,0.05,General Dissatisfaction

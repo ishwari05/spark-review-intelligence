@@ -2,4 +2,31 @@
 __pycache__/
 *.pyc
 .DS_Store
+
+# Spark saved model directories (large binary files — regenerate locally)
 saved_model/
+saved_model_phase1/
+saved_model_phase2/
+saved_model_phase3/
+saved_model_phase4/
+
+# Environment — never commit secrets
+.env
+.env.*
+!.env.example
+
+# Local databases
+*.sqlite3
+*.db
+reviewiq_local.db
+
+# Spark/Hadoop temp files
+derby.log
+metastore_db/
+spark-warehouse/
+
+# Python
+*.egg-info/
+dist/
+build/
+.pytest_cache/

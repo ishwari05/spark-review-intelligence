@@ -1,0 +1,2419 @@
+{
+  "eda": {
+    "total_rows": 86459,
+    "rows_removed_in_cleaning": 13541,
+    "class_distribution": {
+      "negative": 42032,
+      "positive": 44427
+    },
+    "review_length": {
+      "min": 1,
+      "max": 27,
+      "avg": 5.16,
+      "histogram": [
+        {
+          "bucket": 0,
+          "count": 86389
+        },
+        {
+          "bucket": 20,
+          "count": 70
+        }
+      ]
+    },
+    "top_words": [
+      {
+        "word": "great",
+        "count": 307
+      },
+      {
+        "word": "book",
+        "count": 252
+      },
+      {
+        "word": "good",
+        "count": 230
+      },
+      {
+        "word": "best",
+        "count": 160
+      },
+      {
+        "word": "read",
+        "count": 127
+      },
+      {
+        "word": "one",
+        "count": 119
+      },
+      {
+        "word": "movie",
+        "count": 104
+      },
+      {
+        "word": "time",
+        "count": 73
+      },
+      {
+        "word": "better",
+        "count": 70
+      },
+      {
+        "word": "ever",
+        "count": 70
+      },
+      {
+        "word": "buy",
+        "count": 68
+      },
+      {
+        "word": "love",
+        "count": 66
+      },
+      {
+        "word": "get",
+        "count": 62
+      },
+      {
+        "word": "excellent",
+        "count": 60
+      },
+      {
+        "word": "bad",
+        "count": 59
+      },
+      {
+        "word": "must",
+        "count": 57
+      },
+      {
+        "word": "like",
+        "count": 49
+      },
+      {
+        "word": "fun",
+        "count": 48
+      },
+      {
+        "word": "worst",
+        "count": 47
+      },
+      {
+        "word": "classic",
+        "count": 46
+      },
+      {
+        "word": "quality",
+        "count": 46
+      },
+      {
+        "word": "album",
+        "count": 45
+      },
+      {
+        "word": "dvd",
+        "count": 44
+      },
+      {
+        "word": "work",
+        "count": 44
+      },
+      {
+        "word": "story",
+        "count": 43
+      }
+    ]
+  },
+  "models": [
+    {
+      "name": "Naive Bayes",
+      "feature_representation": "Unigram TF-IDF",
+      "accuracy": 0.7604,
+      "precision": 0.7604,
+      "recall": 0.7604,
+      "f1": 0.7602,
+      "roc_auc": 0.8341,
+      "train_time_sec": 0.57,
+      "predict_time_sec": 0.24,
+      "confusion_matrix": {
+        "tp": 6921,
+        "tn": 6057,
+        "fp": 2186,
+        "fn": 1904
+      },
+      "roc_curve": [
+        {
+          "fpr": 0.0,
+          "tpr": 0.0
+        },
+        {
+          "fpr": 0.02171539488050467,
+          "tpr": 0.14220963172804532
+        },
+        {
+          "fpr": 0.025476161591653525,
+          "tpr": 0.16373937677053824
+        },
+        {
+          "fpr": 0.02923692830280238,
+          "tpr": 0.18628895184135977
+        },
+        {
+          "fpr": 0.03226980468276113,
+          "tpr": 0.20929178470254958
+        },
+        {
+          "fpr": 0.036151886449108335,
+          "tpr": 0.23195467422096316
+        },
+        {
+          "fpr": 0.03930607788426544,
+          "tpr": 0.25518413597733713
+        },
+        {
+          "fpr": 0.04282421448501759,
+          "tpr": 0.2789801699716714
+        },
+        {
+          "fpr": 0.04609972097537304,
+          "tpr": 0.3022096317280453
+        },
+        {
+          "fpr": 0.050224432852116946,
+          "tpr": 0.32509915014164303
+        },
+        {
+          "fpr": 0.054591774839257555,
+          "tpr": 0.348328611898017
+        },
+        {
+          "fpr": 0.059323061991993206,
+          "tpr": 0.3728045325779037
+        },
+        {
+          "fpr": 0.06356908892393547,
+          "tpr": 0.39716713881019833
+        },
+        {
+          "fpr": 0.06963484168385296,
+          "tpr": 0.4211898016997167
+        },
+        {
+          "fpr": 0.07351692345020017,
+          "tpr": 0.44555240793201134
+        },
+        {
+          "fpr": 0.07982530632051438,
+          "tpr": 0.46855524079320116
+        },
+        {
+          "fpr": 0.08855999029479558,
+          "tpr": 0.4924645892351275
+        },
+        {
+          "fpr": 0.09571757855149825,
+          "tpr": 0.5141076487252124
+        },
+        {
+          "fpr": 0.10226859153220914,
+          "tpr": 0.5355240793201134
+        },
+        {
+          "fpr": 0.10942617978891181,
+          "tpr": 0.5586402266288952
+        },
+        {
+          "fpr": 0.11973795948077157,
+          "tpr": 0.5837960339943343
+        },
+        {
+          "fpr": 0.12968579400703628,
+          "tpr": 0.6052124645892352
+        },
+        {
+          "fpr": 0.14181729952687128,
+          "tpr": 0.6243626062322947
+        },
+        {
+          "fpr": 0.1534635448259129,
+          "tpr": 0.6490651558073655
+        },
+        {
+          "fpr": 0.16450321484896277,
+          "tpr": 0.6695750708215298
+        },
+        {
+          "fpr": 0.17760524081038456,
+          "tpr": 0.6896317280453258
+        },
+        {
+          "fpr": 0.18949411621982287,
+          "tpr": 0.7082152974504249
+        },
+        {
+          "fpr": 0.20550770350600508,
+          "tpr": 0.7292917847025496
+        },
+        {
+          "fpr": 0.22139997573698897,
+          "tpr": 0.7458356940509915
+        },
+        {
+          "fpr": 0.26616523110518014,
+          "tpr": 0.7856090651558074
+        },
+        {
+          "fpr": 0.2821788183913624,
+          "tpr": 0.8041926345609065
+        },
+        {
+          "fpr": 0.30013344656071816,
+          "tpr": 0.8194900849858356
+        },
+        {
+          "fpr": 0.3151765134053136,
+          "tpr": 0.8352407932011331
+        },
+        {
+          "fpr": 0.3330098265194711,
+          "tpr": 0.8495184135977337
+        },
+        {
+          "fpr": 0.3536333859031906,
+          "tpr": 0.8619830028328612
+        },
+        {
+          "fpr": 0.3720732742933398,
+          "tpr": 0.8727478753541077
+        },
+        {
+          "fpr": 0.3920902584010676,
+          "tpr": 0.8830594900849859
+        },
+        {
+          "fpr": 0.4153827489991508,
+          "tpr": 0.8922379603399433
+        },
+        {
+          "fpr": 0.43709814387965545,
+          "tpr": 0.9035694050991502
+        },
+        {
+          "fpr": 0.460148004367342,
+          "tpr": 0.9130878186968838
+        },
+        {
+          "fpr": 0.4798010433094747,
+          "tpr": 0.9211331444759207
+        },
+        {
+          "fpr": 0.5021230134659711,
+          "tpr": 0.9277053824362607
+        },
+        {
+          "fpr": 0.5238384083464758,
+          "tpr": 0.9355240793201133
+        },
+        {
+          "fpr": 0.544704597840592,
+          "tpr": 0.9425495750708215
+        },
+        {
+          "fpr": 0.5684823486594687,
+          "tpr": 0.9481019830028329
+        },
+        {
+          "fpr": 0.5935945650855271,
+          "tpr": 0.9529745042492918
+        },
+        {
+          "fpr": 0.6218609729467427,
+          "tpr": 0.9564872521246459
+        },
+        {
+          "fpr": 0.6497634356423632,
+          "tpr": 0.9604532577903683
+        },
+        {
+          "fpr": 0.6762101176756036,
+          "tpr": 0.9638526912181303
+        },
+        {
+          "fpr": 0.703748635205629,
+          "tpr": 0.9678186968838527
+        },
+        {
+          "fpr": 0.7292247967972826,
+          "tpr": 0.9708781869688385
+        },
+        {
+          "fpr": 0.756763314327308,
+          "tpr": 0.9742776203966006
+        },
+        {
+          "fpr": 0.7818755307533665,
+          "tpr": 0.9775637393767705
+        },
+        {
+          "fpr": 0.8068664321242266,
+          "tpr": 0.9810764872521246
+        },
+        {
+          "fpr": 0.8375591410894092,
+          "tpr": 0.9852691218130312
+        },
+        {
+          "fpr": 0.8630353026810628,
+          "tpr": 0.9905949008498584
+        },
+        {
+          "fpr": 0.8934853815358486,
+          "tpr": 0.9932011331444759
+        },
+        {
+          "fpr": 0.9221157345626593,
+          "tpr": 0.9955807365439093
+        },
+        {
+          "fpr": 0.9472279509887177,
+          "tpr": 0.9973937677053825
+        },
+        {
+          "fpr": 0.9719762222491811,
+          "tpr": 0.9992067988668555
+        },
+        {
+          "fpr": 0.9974523838408347,
+          "tpr": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Logistic Regression",
+      "feature_representation": "Unigram + Bigram TF-IDF",
+      "accuracy": 0.7563,
+      "precision": 0.7567,
+      "recall": 0.7563,
+      "f1": 0.7563,
+      "roc_auc": 0.8253,
+      "train_time_sec": 2.94,
+      "predict_time_sec": 0.33,
+      "confusion_matrix": {
+        "tp": 6618,
+        "tn": 6290,
+        "fp": 1953,
+        "fn": 2207
+      },
+      "roc_curve": [
+        {
+          "fpr": 0.0,
+          "tpr": 0.0
+        },
+        {
+          "fpr": 0.002183670993570302,
+          "tpr": 0.026062322946175637
+        },
+        {
+          "fpr": 0.0044886570423389545,
+          "tpr": 0.05212464589235127
+        },
+        {
+          "fpr": 0.007764163532694407,
+          "tpr": 0.07728045325779037
+        },
+        {
+          "fpr": 0.011282300133446561,
+          "tpr": 0.10322946175637394
+        },
+        {
+          "fpr": 0.016134902341380566,
+          "tpr": 0.12793201133144477
+        },
+        {
+          "fpr": 0.02013829916292612,
+          "tpr": 0.15410764872521246
+        },
+        {
+          "fpr": 0.02317117554288487,
+          "tpr": 0.18175637393767705
+        },
+        {
+          "fpr": 0.027174572364430424,
+          "tpr": 0.20838526912181304
+        },
+        {
+          "fpr": 0.03142059929637268,
+          "tpr": 0.2339943342776204
+        },
+        {
+          "fpr": 0.03542399611791824,
+          "tpr": 0.25869688385269124
+        },
+        {
+          "fpr": 0.03991265316025719,
+          "tpr": 0.283399433427762
+        },
+        {
+          "fpr": 0.04415868009219944,
+          "tpr": 0.3085552407932011
+        },
+        {
+          "fpr": 0.048404707024141694,
+          "tpr": 0.3340509915014164
+        },
+        {
+          "fpr": 0.054834404949654254,
+          "tpr": 0.3571671388101983
+        },
+        {
+          "fpr": 0.06138541793036516,
+          "tpr": 0.381643059490085
+        },
+        {
+          "fpr": 0.06781511585587771,
+          "tpr": 0.40611898016997167
+        },
+        {
+          "fpr": 0.07497270411258038,
+          "tpr": 0.42844192634560907
+        },
+        {
+          "fpr": 0.08334344292126653,
+          "tpr": 0.4495184135977337
+        },
+        {
+          "fpr": 0.09037971612277083,
+          "tpr": 0.47263456090651557
+        },
+        {
+          "fpr": 0.0980225646002669,
+          "tpr": 0.4954107648725212
+        },
+        {
+          "fpr": 0.11076064539609365,
+          "tpr": 0.5221529745042492
+        },
+        {
+          "fpr": 0.11888875409438311,
+          "tpr": 0.5542209631728046
+        },
+        {
+          "fpr": 0.12786606817906102,
+          "tpr": 0.5786968838526912
+        },
+        {
+          "fpr": 0.1374499575397307,
+          "tpr": 0.6035127478753541
+        },
+        {
+          "fpr": 0.14897488778357393,
+          "tpr": 0.6236827195467423
+        },
+        {
+          "fpr": 0.159044037365037,
+          "tpr": 0.6469121813031161
+        },
+        {
+          "fpr": 0.17275263860245058,
+          "tpr": 0.6659490084985835
+        },
+        {
+          "fpr": 0.1892514861094262,
+          "tpr": 0.6891784702549575
+        },
+        {
+          "fpr": 0.20223219701564965,
+          "tpr": 0.7099150141643059
+        },
+        {
+          "fpr": 0.21727526386024507,
+          "tpr": 0.7275920679886686
+        },
+        {
+          "fpr": 0.23159044037365037,
+          "tpr": 0.7442492917847026
+        },
+        {
+          "fpr": 0.2497876986534029,
+          "tpr": 0.7623796033994334
+        },
+        {
+          "fpr": 0.26616523110518014,
+          "tpr": 0.7792634560906515
+        },
+        {
+          "fpr": 0.3166322940676938,
+          "tpr": 0.8200566572237961
+        },
+        {
+          "fpr": 0.33980346961057867,
+          "tpr": 0.8345609065155808
+        },
+        {
+          "fpr": 0.36079097415989325,
+          "tpr": 0.8490651558073654
+        },
+        {
+          "fpr": 0.38117190343321605,
+          "tpr": 0.8608498583569405
+        },
+        {
+          "fpr": 0.4038578187553075,
+          "tpr": 0.8738810198300283
+        },
+        {
+          "fpr": 0.4303045007885479,
+          "tpr": 0.88328611898017
+        },
+        {
+          "fpr": 0.4543248817178212,
+          "tpr": 0.8928045325779037
+        },
+        {
+          "fpr": 0.479558413199078,
+          "tpr": 0.9028895184135978
+        },
+        {
+          "fpr": 0.5022443285211695,
+          "tpr": 0.9118413597733711
+        },
+        {
+          "fpr": 0.5284483804440131,
+          "tpr": 0.9189801699716714
+        },
+        {
+          "fpr": 0.5530753366492782,
+          "tpr": 0.926685552407932
+        },
+        {
+          "fpr": 0.5740628411985927,
+          "tpr": 0.9357507082152975
+        },
+        {
+          "fpr": 0.6007521533422298,
+          "tpr": 0.9428895184135977
+        },
+        {
+          "fpr": 0.6286546160378503,
+          "tpr": 0.9488951841359773
+        },
+        {
+          "fpr": 0.6552226131262889,
+          "tpr": 0.9544475920679887
+        },
+        {
+          "fpr": 0.6830037607667111,
+          "tpr": 0.9606798866855524
+        },
+        {
+          "fpr": 0.7096930729103482,
+          "tpr": 0.9662322946175638
+        },
+        {
+          "fpr": 0.7374742205507704,
+          "tpr": 0.9701983002832861
+        },
+        {
+          "fpr": 0.7679242994055562,
+          "tpr": 0.9738243626062323
+        },
+        {
+          "fpr": 0.7943709814387966,
+          "tpr": 0.9794900849858357
+        },
+        {
+          "fpr": 0.8240931699623923,
+          "tpr": 0.9837960339943342
+        },
+        {
+          "fpr": 0.8540579885963848,
+          "tpr": 0.9867422096317281
+        },
+        {
+          "fpr": 0.8830522867887904,
+          "tpr": 0.990028328611898
+        },
+        {
+          "fpr": 0.9130171054227829,
+          "tpr": 0.9930878186968839
+        },
+        {
+          "fpr": 0.9412835132839985,
+          "tpr": 0.9955807365439093
+        },
+        {
+          "fpr": 0.9693072910348174,
+          "tpr": 0.9979603399433428
+        },
+        {
+          "fpr": 0.997209753730438,
+          "tpr": 0.9998866855524079
+        }
+      ]
+    },
+    {
+      "name": "Random Forest",
+      "feature_representation": "Unigram + Bigram TF-IDF",
+      "accuracy": 0.6544,
+      "precision": 0.7552,
+      "recall": 0.6544,
+      "f1": 0.61,
+      "roc_auc": 0.7856,
+      "train_time_sec": 25.03,
+      "predict_time_sec": 0.3,
+      "confusion_matrix": {
+        "tp": 8597,
+        "tn": 2573,
+        "fp": 5670,
+        "fn": 228
+      },
+      "roc_curve": [
+        {
+          "fpr": 0.0,
+          "tpr": 0.0
+        },
+        {
+          "fpr": 0.0,
+          "tpr": 0.006232294617563739
+        },
+        {
+          "fpr": 0.00024263011039670022,
+          "tpr": 0.015524079320113314
+        },
+        {
+          "fpr": 0.0003639451655950503,
+          "tpr": 0.022209631728045326
+        },
+        {
+          "fpr": 0.0015770957175785514,
+          "tpr": 0.0484985835694051
+        },
+        {
+          "fpr": 0.002304986048768652,
+          "tpr": 0.054390934844192634
+        },
+        {
+          "fpr": 0.003154191435157103,
+          "tpr": 0.06742209631728045
+        },
+        {
+          "fpr": 0.003275506490355453,
+          "tpr": 0.07331444759206798
+        },
+        {
+          "fpr": 0.004246026931942254,
+          "tpr": 0.08158640226628895
+        },
+        {
+          "fpr": 0.00934125925027296,
+          "tpr": 0.11603399433427762
+        },
+        {
+          "fpr": 0.01116098507824821,
+          "tpr": 0.12895184135977336
+        },
+        {
+          "fpr": 0.012738080795826763,
+          "tpr": 0.1405099150141643
+        },
+        {
+          "fpr": 0.013587286182215212,
+          "tpr": 0.15807365439093485
+        },
+        {
+          "fpr": 0.015770957175785513,
+          "tpr": 0.17189801699716714
+        },
+        {
+          "fpr": 0.026204051922843623,
+          "tpr": 0.24203966005665722
+        },
+        {
+          "fpr": 0.031056654130777628,
+          "tpr": 0.26606232294617566
+        },
+        {
+          "fpr": 0.03324032512434793,
+          "tpr": 0.2751274787535411
+        },
+        {
+          "fpr": 0.03493873589712483,
+          "tpr": 0.27943342776203967
+        },
+        {
+          "fpr": 0.03760766711148854,
+          "tpr": 0.2923512747875354
+        },
+        {
+          "fpr": 0.040761858546645637,
+          "tpr": 0.30141643059490086
+        },
+        {
+          "fpr": 0.04379473492660439,
+          "tpr": 0.311614730878187
+        },
+        {
+          "fpr": 0.04452262525779449,
+          "tpr": 0.3243059490084986
+        },
+        {
+          "fpr": 0.04597840592017469,
+          "tpr": 0.3355240793201133
+        },
+        {
+          "fpr": 0.05119495329370375,
+          "tpr": 0.3458356940509915
+        },
+        {
+          "fpr": 0.05313599417687735,
+          "tpr": 0.35490084985835696
+        },
+        {
+          "fpr": 0.05641150066723281,
+          "tpr": 0.3645325779036827
+        },
+        {
+          "fpr": 0.06138541793036516,
+          "tpr": 0.3811898016997167
+        },
+        {
+          "fpr": 0.06648065024869586,
+          "tpr": 0.4020396600566572
+        },
+        {
+          "fpr": 0.07145456751182822,
+          "tpr": 0.4167705382436261
+        },
+        {
+          "fpr": 0.10129807109062235,
+          "tpr": 0.47206798866855526
+        },
+        {
+          "fpr": 0.11452141210724251,
+          "tpr": 0.4880453257790368
+        },
+        {
+          "fpr": 0.13004973917263132,
+          "tpr": 0.5118413597733711
+        },
+        {
+          "fpr": 0.5804925391241053,
+          "tpr": 0.9342776203966006
+        },
+        {
+          "fpr": 0.5844959359456509,
+          "tpr": 0.9374504249291785
+        },
+        {
+          "fpr": 0.5932306199199321,
+          "tpr": 0.9448158640226629
+        },
+        {
+          "fpr": 0.6154312750212302,
+          "tpr": 0.9526345609065155
+        },
+        {
+          "fpr": 0.6284119859274536,
+          "tpr": 0.9570538243626062
+        },
+        {
+          "fpr": 0.6446682033240325,
+          "tpr": 0.9644192634560906
+        },
+        {
+          "fpr": 0.6668688584253306,
+          "tpr": 0.9680453257790368
+        },
+        {
+          "fpr": 0.6786364187795706,
+          "tpr": 0.9711048158640226
+        },
+        {
+          "fpr": 0.6855513769258765,
+          "tpr": 0.9734844192634561
+        },
+        {
+          "fpr": 0.6944073759553561,
+          "tpr": 0.976657223796034
+        },
+        {
+          "fpr": 0.7135751546766954,
+          "tpr": 0.9814164305949008
+        },
+        {
+          "fpr": 0.7318937280116462,
+          "tpr": 0.9828895184135977
+        },
+        {
+          "fpr": 0.7459662744146549,
+          "tpr": 0.9851558073654391
+        },
+        {
+          "fpr": 0.7658619434671843,
+          "tpr": 0.988328611898017
+        },
+        {
+          "fpr": 0.7789639694286061,
+          "tpr": 0.9885552407932011
+        },
+        {
+          "fpr": 0.8074730074002183,
+          "tpr": 0.9912747875354108
+        },
+        {
+          "fpr": 0.8223947591896155,
+          "tpr": 0.9924079320113315
+        },
+        {
+          "fpr": 0.8386509765861944,
+          "tpr": 0.9942209631728045
+        },
+        {
+          "fpr": 0.8487201261676574,
+          "tpr": 0.9954674220963173
+        },
+        {
+          "fpr": 0.8633992478466578,
+          "tpr": 0.9973937677053825
+        },
+        {
+          "fpr": 0.8872983137207328,
+          "tpr": 0.9980736543909349
+        },
+        {
+          "fpr": 0.8946985320878321,
+          "tpr": 0.9986402266288952
+        },
+        {
+          "fpr": 0.9167778721339318,
+          "tpr": 0.9993201133144476
+        },
+        {
+          "fpr": 0.9269683367705932,
+          "tpr": 0.9994334277620397
+        },
+        {
+          "fpr": 0.9414048283391969,
+          "tpr": 0.9996600566572238
+        },
+        {
+          "fpr": 0.9477132112095111,
+          "tpr": 0.9997733711048159
+        },
+        {
+          "fpr": 0.9604512920053379,
+          "tpr": 0.9997733711048159
+        },
+        {
+          "fpr": 0.9794977556714788,
+          "tpr": 1.0
+        },
+        {
+          "fpr": 0.9892029600873469,
+          "tpr": 1.0
+        },
+        {
+          "fpr": 1.0,
+          "tpr": 1.0
+        }
+      ]
+    }
+  ],
+  "best_model": "Naive Bayes",
+  "error_analysis": {
+    "summary": {
+      "total_test_samples": 17068,
+      "correct_predictions": 12978,
+      "incorrect_predictions": 4090,
+      "error_rate": 0.2396,
+      "false_positives": 2186,
+      "false_negatives": 1904,
+      "avg_confidence_correct": 0.9691,
+      "avg_confidence_incorrect": 0.9032
+    },
+    "negation_analysis": {
+      "total_reviews_with_negation": 1710,
+      "overall_negation_pct": 10.02,
+      "error_reviews_with_negation": 685,
+      "error_negation_pct": 16.75,
+      "negation_error_rate": 0.4006
+    },
+    "length_error_breakdown": [
+      {
+        "bucket": "Medium (15-50 words)",
+        "total": 80,
+        "errors": 18,
+        "error_rate": 0.225,
+        "avg_confidence": 0.986
+      },
+      {
+        "bucket": "Short (<15 words)",
+        "total": 16988,
+        "errors": 4072,
+        "error_rate": 0.2397,
+        "avg_confidence": 0.9531
+      }
+    ],
+    "misclassified_examples": [
+      {
+        "review": "tones are the same!",
+        "true_sentiment": "Negative",
+        "predicted_sentiment": "Positive",
+        "confidence": 0.5131,
+        "length_words": 5,
+        "error_type": "FP",
+        "apparent_cause": "Short / Sparse Context"
+      },
+      {
+        "review": "Item is as advertised.",
+        "true_sentiment": "Positive",
+        "predicted_sentiment": "Negative",
+        "confidence": 0.9993,
+        "length_words": 5,
+        "error_type": "FN",
+        "apparent_cause": "Short / Sparse Context"
+      },
+      {
+        "review": "worth the wait",
+        "true_sentiment": "Positive",
+        "predicted_sentiment": "Negative",
+        "confidence": 0.8303,
+        "length_words": 3,
+        "error_type": "FN",
+        "apparent_cause": "Short / Sparse Context"
+      },
+      {
+        "review": "No thank you",
+        "true_sentiment": "Negative",
+        "predicted_sentiment": "Positive",
+        "confidence": 0.949,
+        "length_words": 3,
+        "error_type": "FP",
+        "apparent_cause": "Negation / Polarity Inversion"
+      },
+      {
+        "review": "I did not know it??",
+        "true_sentiment": "Positive",
+        "predicted_sentiment": "Negative",
+        "confidence": 0.727,
+        "length_words": 6,
+        "error_type": "FN",
+        "apparent_cause": "Negation / Polarity Inversion"
+      },
+      {
+        "review": "Dr Zhivago",
+        "true_sentiment": "Negative",
+        "predicted_sentiment": "Positive",
+        "confidence": 1.0,
+        "length_words": 2,
+        "error_type": "FP",
+        "apparent_cause": "Short / Sparse Context"
+      },
+      {
+        "review": "just 1 peanuts movie!??!!",
+        "true_sentiment": "Negative",
+        "predicted_sentiment": "Positive",
+        "confidence": 1.0,
+        "length_words": 5,
+        "error_type": "FP",
+        "apparent_cause": "Short / Sparse Context"
+      },
+      {
+        "review": "Good in Theory",
+        "true_sentiment": "Negative",
+        "predicted_sentiment": "Positive",
+        "confidence": 0.7751,
+        "length_words": 3,
+        "error_type": "FP",
+        "apparent_cause": "Short / Sparse Context"
+      }
+    ]
+  },
+  "business_insights": {
+    "overall_sentiment": {
+      "total_reviews_analyzed": 86459,
+      "positive_reviews_count": 44427,
+      "negative_reviews_count": 42032,
+      "percent_positive": 51.39,
+      "percent_negative": 48.61
+    },
+    "rating_vs_sentiment": {
+      "dataset_structure": "Amazon Polarity (Stanford SNAP) provides binary polarity labels (0=Negative [1-2 Stars], 1=Positive [4-5 Stars]). Neutral 3-star reviews are excluded to maximize signal-to-noise ratio.",
+      "average_rating_note": "Direct 1-5 numeric rating field is abstracted as binary polarity ground truth in this benchmark."
+    },
+    "review_characteristics": {
+      "avg_words_overall": 5.16,
+      "avg_words_positive_review": 5.09,
+      "avg_words_negative_review": 5.24,
+      "length_difference_words": 0.14
+    },
+    "important_terms": {
+      "top_positive_terms": [
+        {
+          "word": "provoking",
+          "score": 5.9276
+        },
+        {
+          "word": "smooth",
+          "score": 5.3723
+        },
+        {
+          "word": "brings",
+          "score": 5.3723
+        },
+        {
+          "word": "gripping",
+          "score": 5.2805
+        },
+        {
+          "word": "refreshing",
+          "score": 5.2133
+        },
+        {
+          "word": "engrossing",
+          "score": 5.2133
+        },
+        {
+          "word": "addictive",
+          "score": 5.1404
+        },
+        {
+          "word": "hooked",
+          "score": 5.1015
+        },
+        {
+          "word": "magnificent",
+          "score": 5.0607
+        },
+        {
+          "word": "culture",
+          "score": 5.0179
+        },
+        {
+          "word": "enlightening",
+          "score": 4.9729
+        },
+        {
+          "word": "delight",
+          "score": 4.9254
+        },
+        {
+          "word": "perfection",
+          "score": 4.9254
+        },
+        {
+          "word": "enchanting",
+          "score": 4.9254
+        },
+        {
+          "word": "soulful",
+          "score": 4.8893
+        }
+      ],
+      "top_negative_terms": [
+        {
+          "word": "useless",
+          "score": 6.4608
+        },
+        {
+          "word": "worthless",
+          "score": 6.1405
+        },
+        {
+          "word": "mess",
+          "score": 6.0387
+        },
+        {
+          "word": "pathetic",
+          "score": 5.7959
+        },
+        {
+          "word": "tedious",
+          "score": 5.7559
+        },
+        {
+          "word": "sucked",
+          "score": 5.7526
+        },
+        {
+          "word": "rubbish",
+          "score": 5.7335
+        },
+        {
+          "word": "pointless",
+          "score": 5.7069
+        },
+        {
+          "word": "blah",
+          "score": 5.667
+        },
+        {
+          "word": "pretentious",
+          "score": 5.6373
+        },
+        {
+          "word": "dissapointing",
+          "score": 5.6335
+        },
+        {
+          "word": "bland",
+          "score": 5.5889
+        },
+        {
+          "word": "drivel",
+          "score": 5.5532
+        },
+        {
+          "word": "cheaply",
+          "score": 5.5247
+        },
+        {
+          "word": "yawn",
+          "score": 5.469
+        }
+      ]
+    },
+    "model_summary": {
+      "best_model_name": "Naive Bayes",
+      "best_model_accuracy": 0.7604,
+      "best_model_f1": 0.7602,
+      "best_model_roc_auc": 0.8341
+    }
+  },
+  "absa": {
+    "aspects": [
+      {
+        "aspect": "Price / Value",
+        "mentions": 2362,
+        "positive_mentions": 833,
+        "negative_mentions": 1529,
+        "positive_pct": 35.27,
+        "negative_pct": 64.73,
+        "avg_confidence": 96.66,
+        "is_pain_point": true,
+        "status": "High Negative Feedback",
+        "classification": "Potential Customer Pain Point"
+      },
+      {
+        "aspect": "Build Quality",
+        "mentions": 1418,
+        "positive_mentions": 323,
+        "negative_mentions": 1095,
+        "positive_pct": 22.78,
+        "negative_pct": 77.22,
+        "avg_confidence": 97.13,
+        "is_pain_point": true,
+        "status": "High Negative Feedback",
+        "classification": "Potential Customer Pain Point"
+      },
+      {
+        "aspect": "Customer Support",
+        "mentions": 503,
+        "positive_mentions": 123,
+        "negative_mentions": 380,
+        "positive_pct": 24.45,
+        "negative_pct": 75.55,
+        "avg_confidence": 96.8,
+        "is_pain_point": true,
+        "status": "High Negative Feedback",
+        "classification": "Potential Customer Pain Point"
+      },
+      {
+        "aspect": "Delivery / Packaging",
+        "mentions": 433,
+        "positive_mentions": 164,
+        "negative_mentions": 269,
+        "positive_pct": 37.88,
+        "negative_pct": 62.12,
+        "avg_confidence": 96.67,
+        "is_pain_point": true,
+        "status": "High Negative Feedback",
+        "classification": "Potential Customer Pain Point"
+      },
+      {
+        "aspect": "Battery",
+        "mentions": 331,
+        "positive_mentions": 122,
+        "negative_mentions": 209,
+        "positive_pct": 36.86,
+        "negative_pct": 63.14,
+        "avg_confidence": 95.43,
+        "is_pain_point": true,
+        "status": "High Negative Feedback",
+        "classification": "Potential Customer Pain Point"
+      }
+    ],
+    "pain_points": [
+      {
+        "aspect": "Build Quality",
+        "negative_pct": 77.22,
+        "mentions": 1418,
+        "status": "High Negative Feedback",
+        "note": "77.22% negative feedback across 1,418 mentions."
+      },
+      {
+        "aspect": "Customer Support",
+        "negative_pct": 75.55,
+        "mentions": 503,
+        "status": "High Negative Feedback",
+        "note": "75.55% negative feedback across 503 mentions."
+      },
+      {
+        "aspect": "Price / Value",
+        "negative_pct": 64.73,
+        "mentions": 2362,
+        "status": "High Negative Feedback",
+        "note": "64.73% negative feedback across 2,362 mentions."
+      },
+      {
+        "aspect": "Battery",
+        "negative_pct": 63.14,
+        "mentions": 331,
+        "status": "High Negative Feedback",
+        "note": "63.14% negative feedback across 331 mentions."
+      },
+      {
+        "aspect": "Delivery / Packaging",
+        "negative_pct": 62.12,
+        "mentions": 433,
+        "status": "High Negative Feedback",
+        "note": "62.12% negative feedback across 433 mentions."
+      }
+    ],
+    "total_aspect_mentions": 5047,
+    "sample_predictions": [
+      {
+        "review": "Definately worth knowing",
+        "aspect": "Price / Value",
+        "context": "Definately worth knowing",
+        "sentiment": "Positive",
+        "confidence": 100.0
+      },
+      {
+        "review": "this album is garbage,straight bfi material",
+        "aspect": "Build Quality",
+        "context": "this album is garbage,straight bfi material",
+        "sentiment": "Negative",
+        "confidence": 100.0
+      },
+      {
+        "review": "Ibook Replacement Power Adapter",
+        "aspect": "Battery",
+        "context": "Ibook Replacement Power Adapter",
+        "sentiment": "Positive",
+        "confidence": 98.2
+      },
+      {
+        "review": "Low cost defective product",
+        "aspect": "Price / Value",
+        "context": "Low cost defective product",
+        "sentiment": "Negative",
+        "confidence": 100.0
+      },
+      {
+        "review": "great quality",
+        "aspect": "Build Quality",
+        "context": "great quality",
+        "sentiment": "Positive",
+        "confidence": 60.4
+      },
+      {
+        "review": "best money I ever spent on shape wear",
+        "aspect": "Price / Value",
+        "context": "best money I ever spent on shape wear",
+        "sentiment": "Negative",
+        "confidence": 98.0
+      },
+      {
+        "review": "waste of money",
+        "aspect": "Price / Value",
+        "context": "waste of money",
+        "sentiment": "Negative",
+        "confidence": 100.0
+      },
+      {
+        "review": "WORTH THE MONEY!!!!",
+        "aspect": "Price / Value",
+        "context": "WORTH THE MONEY",
+        "sentiment": "Negative",
+        "confidence": 100.0
+      },
+      {
+        "review": "AMAZZZZIIIING QUALITY!!",
+        "aspect": "Build Quality",
+        "context": "AMAZZZZIIIING QUALITY",
+        "sentiment": "Negative",
+        "confidence": 97.1
+      },
+      {
+        "review": "Cheap and works really well!",
+        "aspect": "Price / Value",
+        "context": "Cheap and works really well",
+        "sentiment": "Negative",
+        "confidence": 93.8
+      },
+      {
+        "review": "inseam torn/metal frame showing",
+        "aspect": "Build Quality",
+        "context": "inseam torn/metal frame showing",
+        "sentiment": "Negative",
+        "confidence": 100.0
+      },
+      {
+        "review": "Not very durable",
+        "aspect": "Build Quality",
+        "context": "Not very durable",
+        "sentiment": "Negative",
+        "confidence": 89.6
+      },
+      {
+        "review": "substandard quality",
+        "aspect": "Build Quality",
+        "context": "substandard quality",
+        "sentiment": "Negative",
+        "confidence": 100.0
+      },
+      {
+        "review": "Do not waste your money!!!",
+        "aspect": "Price / Value",
+        "context": "Do not waste your money",
+        "sentiment": "Negative",
+        "confidence": 100.0
+      },
+      {
+        "review": "Good, expensive",
+        "aspect": "Price / Value",
+        "context": "Good, expensive",
+        "sentiment": "Negative",
+        "confidence": 95.9
+      },
+      {
+        "review": "Not worth the time or money",
+        "aspect": "Price / Value",
+        "context": "Not worth the time or money",
+        "sentiment": "Negative",
+        "confidence": 100.0
+      },
+      {
+        "review": "Beautiful packaging - but the translation is terribly flawed.",
+        "aspect": "Delivery / Packaging",
+        "context": "Beautiful packaging -",
+        "sentiment": "Positive",
+        "confidence": 99.9
+      },
+      {
+        "review": "Cool concept, not so good delivery. 2.5 Stars",
+        "aspect": "Delivery / Packaging",
+        "context": "Cool concept, not so good delivery",
+        "sentiment": "Positive",
+        "confidence": 96.7
+      },
+      {
+        "review": "Not worth the price",
+        "aspect": "Price / Value",
+        "context": "Not worth the price",
+        "sentiment": "Positive",
+        "confidence": 97.3
+      },
+      {
+        "review": "not worth it",
+        "aspect": "Price / Value",
+        "context": "not worth it",
+        "sentiment": "Negative",
+        "confidence": 72.2
+      }
+    ]
+  },
+  "complaint_mining": {
+    "total_negative_reviews": 42032,
+    "top_complaints": [
+      {
+        "phrase": "waste money",
+        "n_gram_type": "Bigram",
+        "frequency": 288,
+        "percentage": 0.69,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "poor quality",
+        "n_gram_type": "Bigram",
+        "frequency": 167,
+        "percentage": 0.4,
+        "aspect": "Build Quality"
+      },
+      {
+        "phrase": "worst movie",
+        "n_gram_type": "Bigram",
+        "frequency": 141,
+        "percentage": 0.34,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst book",
+        "n_gram_type": "Bigram",
+        "frequency": 95,
+        "percentage": 0.23,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "bad movie",
+        "n_gram_type": "Bigram",
+        "frequency": 66,
+        "percentage": 0.16,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "bad bad",
+        "n_gram_type": "Bigram",
+        "frequency": 56,
+        "percentage": 0.13,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "piece junk",
+        "n_gram_type": "Bigram",
+        "frequency": 52,
+        "percentage": 0.12,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "bad book",
+        "n_gram_type": "Bigram",
+        "frequency": 44,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "movie bad",
+        "n_gram_type": "Bigram",
+        "frequency": 44,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "stopped working",
+        "n_gram_type": "Bigram",
+        "frequency": 43,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst movie seen",
+        "n_gram_type": "Trigram",
+        "frequency": 42,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst book read",
+        "n_gram_type": "Trigram",
+        "frequency": 40,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst movies",
+        "n_gram_type": "Bigram",
+        "frequency": 35,
+        "percentage": 0.08,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "bad dvd",
+        "n_gram_type": "Bigram",
+        "frequency": 33,
+        "percentage": 0.08,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "dont waste",
+        "n_gram_type": "Bigram",
+        "frequency": 27,
+        "percentage": 0.06,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "total waste",
+        "n_gram_type": "Bigram",
+        "frequency": 25,
+        "percentage": 0.06,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "bad quality",
+        "n_gram_type": "Bigram",
+        "frequency": 25,
+        "percentage": 0.06,
+        "aspect": "Build Quality"
+      },
+      {
+        "phrase": "horrible horrible",
+        "n_gram_type": "Bigram",
+        "frequency": 25,
+        "percentage": 0.06,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "piece crap",
+        "n_gram_type": "Bigram",
+        "frequency": 24,
+        "percentage": 0.06,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "movie terrible",
+        "n_gram_type": "Bigram",
+        "frequency": 24,
+        "percentage": 0.06,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "complete waste",
+        "n_gram_type": "Bigram",
+        "frequency": 24,
+        "percentage": 0.06,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "book bad",
+        "n_gram_type": "Bigram",
+        "frequency": 23,
+        "percentage": 0.05,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "pretty bad",
+        "n_gram_type": "Bigram",
+        "frequency": 23,
+        "percentage": 0.05,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "awful awful",
+        "n_gram_type": "Bigram",
+        "frequency": 23,
+        "percentage": 0.05,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "terrible movie",
+        "n_gram_type": "Bigram",
+        "frequency": 22,
+        "percentage": 0.05,
+        "aspect": "General Dissatisfaction"
+      }
+    ],
+    "top_bigrams": [
+      {
+        "phrase": "waste money",
+        "n_gram_type": "Bigram",
+        "frequency": 288,
+        "percentage": 0.69,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "poor quality",
+        "n_gram_type": "Bigram",
+        "frequency": 167,
+        "percentage": 0.4,
+        "aspect": "Build Quality"
+      },
+      {
+        "phrase": "worst movie",
+        "n_gram_type": "Bigram",
+        "frequency": 141,
+        "percentage": 0.34,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "blu ray",
+        "n_gram_type": "Bigram",
+        "frequency": 107,
+        "percentage": 0.25,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "doesn work",
+        "n_gram_type": "Bigram",
+        "frequency": 107,
+        "percentage": 0.25,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst book",
+        "n_gram_type": "Bigram",
+        "frequency": 95,
+        "percentage": 0.23,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "save money",
+        "n_gram_type": "Bigram",
+        "frequency": 84,
+        "percentage": 0.2,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "book read",
+        "n_gram_type": "Bigram",
+        "frequency": 78,
+        "percentage": 0.19,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "read book",
+        "n_gram_type": "Bigram",
+        "frequency": 70,
+        "percentage": 0.17,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "didn work",
+        "n_gram_type": "Bigram",
+        "frequency": 68,
+        "percentage": 0.16,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "bad movie",
+        "n_gram_type": "Bigram",
+        "frequency": 66,
+        "percentage": 0.16,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "zero stars",
+        "n_gram_type": "Bigram",
+        "frequency": 66,
+        "percentage": 0.16,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "kindle edition",
+        "n_gram_type": "Bigram",
+        "frequency": 63,
+        "percentage": 0.15,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "stay away",
+        "n_gram_type": "Bigram",
+        "frequency": 59,
+        "percentage": 0.14,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "bad bad",
+        "n_gram_type": "Bigram",
+        "frequency": 56,
+        "percentage": 0.13,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "movie seen",
+        "n_gram_type": "Bigram",
+        "frequency": 56,
+        "percentage": 0.13,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "customer service",
+        "n_gram_type": "Bigram",
+        "frequency": 56,
+        "percentage": 0.13,
+        "aspect": "Customer Support"
+      },
+      {
+        "phrase": "worth money",
+        "n_gram_type": "Bigram",
+        "frequency": 53,
+        "percentage": 0.13,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "buyer beware",
+        "n_gram_type": "Bigram",
+        "frequency": 53,
+        "percentage": 0.13,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "piece junk",
+        "n_gram_type": "Bigram",
+        "frequency": 52,
+        "percentage": 0.12,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "poorly written",
+        "n_gram_type": "Bigram",
+        "frequency": 52,
+        "percentage": 0.12,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "bad book",
+        "n_gram_type": "Bigram",
+        "frequency": 44,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "movie bad",
+        "n_gram_type": "Bigram",
+        "frequency": 44,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "stopped working",
+        "n_gram_type": "Bigram",
+        "frequency": 43,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "sound quality",
+        "n_gram_type": "Bigram",
+        "frequency": 42,
+        "percentage": 0.1,
+        "aspect": "Build Quality"
+      }
+    ],
+    "top_trigrams": [
+      {
+        "phrase": "worst movie seen",
+        "n_gram_type": "Trigram",
+        "frequency": 42,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst book read",
+        "n_gram_type": "Trigram",
+        "frequency": 40,
+        "percentage": 0.1,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "bad bad bad",
+        "n_gram_type": "Trigram",
+        "frequency": 18,
+        "percentage": 0.04,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "dont waste money",
+        "n_gram_type": "Trigram",
+        "frequency": 17,
+        "percentage": 0.04,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "total waste money",
+        "n_gram_type": "Trigram",
+        "frequency": 17,
+        "percentage": 0.04,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "boring boring boring",
+        "n_gram_type": "Trigram",
+        "frequency": 15,
+        "percentage": 0.04,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "movie bad dvd",
+        "n_gram_type": "Trigram",
+        "frequency": 15,
+        "percentage": 0.04,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst movies seen",
+        "n_gram_type": "Trigram",
+        "frequency": 12,
+        "percentage": 0.03,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst book written",
+        "n_gram_type": "Trigram",
+        "frequency": 10,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "worst books read",
+        "n_gram_type": "Trigram",
+        "frequency": 10,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "blu ray transfer",
+        "n_gram_type": "Trigram",
+        "frequency": 9,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "possibly worst movie",
+        "n_gram_type": "Trigram",
+        "frequency": 9,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "poor sound quality",
+        "n_gram_type": "Trigram",
+        "frequency": 9,
+        "percentage": 0.02,
+        "aspect": "Build Quality"
+      },
+      {
+        "phrase": "sucks sucks sucks",
+        "n_gram_type": "Trigram",
+        "frequency": 9,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "didn last long",
+        "n_gram_type": "Trigram",
+        "frequency": 9,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "awful awful awful",
+        "n_gram_type": "Trigram",
+        "frequency": 8,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "quite possibly worst",
+        "n_gram_type": "Trigram",
+        "frequency": 8,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "cheap cheap cheap",
+        "n_gram_type": "Trigram",
+        "frequency": 8,
+        "percentage": 0.02,
+        "aspect": "Price / Value"
+      },
+      {
+        "phrase": "movie terrible dvd",
+        "n_gram_type": "Trigram",
+        "frequency": 8,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "stopped working months",
+        "n_gram_type": "Trigram",
+        "frequency": 8,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "doesn deserve star",
+        "n_gram_type": "Trigram",
+        "frequency": 8,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "horrible customer service",
+        "n_gram_type": "Trigram",
+        "frequency": 7,
+        "percentage": 0.02,
+        "aspect": "Customer Support"
+      },
+      {
+        "phrase": "old man sea",
+        "n_gram_type": "Trigram",
+        "frequency": 7,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "idea poor execution",
+        "n_gram_type": "Trigram",
+        "frequency": 7,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      },
+      {
+        "phrase": "blu ray version",
+        "n_gram_type": "Trigram",
+        "frequency": 7,
+        "percentage": 0.02,
+        "aspect": "General Dissatisfaction"
+      }
+    ],
+    "aspect_complaints": {
+      "Battery": [],
+      "Build Quality": [
+        {
+          "phrase": "poor quality",
+          "n_gram_type": "Bigram",
+          "frequency": 167,
+          "percentage": 0.4,
+          "aspect": "Build Quality"
+        },
+        {
+          "phrase": "bad quality",
+          "n_gram_type": "Bigram",
+          "frequency": 25,
+          "percentage": 0.06,
+          "aspect": "Build Quality"
+        },
+        {
+          "phrase": "terrible quality",
+          "n_gram_type": "Bigram",
+          "frequency": 19,
+          "percentage": 0.05,
+          "aspect": "Build Quality"
+        },
+        {
+          "phrase": "quality poor",
+          "n_gram_type": "Bigram",
+          "frequency": 14,
+          "percentage": 0.03,
+          "aspect": "Build Quality"
+        },
+        {
+          "phrase": "cheap plastic",
+          "n_gram_type": "Bigram",
+          "frequency": 11,
+          "percentage": 0.03,
+          "aspect": "Build Quality"
+        },
+        {
+          "phrase": "poor sound quality",
+          "n_gram_type": "Trigram",
+          "frequency": 9,
+          "percentage": 0.02,
+          "aspect": "Build Quality"
+        }
+      ],
+      "Price / Value": [
+        {
+          "phrase": "waste money",
+          "n_gram_type": "Bigram",
+          "frequency": 288,
+          "percentage": 0.69,
+          "aspect": "Price / Value"
+        },
+        {
+          "phrase": "dont waste",
+          "n_gram_type": "Bigram",
+          "frequency": 27,
+          "percentage": 0.06,
+          "aspect": "Price / Value"
+        },
+        {
+          "phrase": "total waste",
+          "n_gram_type": "Bigram",
+          "frequency": 25,
+          "percentage": 0.06,
+          "aspect": "Price / Value"
+        },
+        {
+          "phrase": "complete waste",
+          "n_gram_type": "Bigram",
+          "frequency": 24,
+          "percentage": 0.06,
+          "aspect": "Price / Value"
+        },
+        {
+          "phrase": "cheap cheap",
+          "n_gram_type": "Bigram",
+          "frequency": 19,
+          "percentage": 0.05,
+          "aspect": "Price / Value"
+        },
+        {
+          "phrase": "waste paper",
+          "n_gram_type": "Bigram",
+          "frequency": 18,
+          "percentage": 0.04,
+          "aspect": "Price / Value"
+        }
+      ],
+      "Customer Support": [
+        {
+          "phrase": "horrible customer service",
+          "n_gram_type": "Trigram",
+          "frequency": 7,
+          "percentage": 0.02,
+          "aspect": "Customer Support"
+        },
+        {
+          "phrase": "bad customer service",
+          "n_gram_type": "Trigram",
+          "frequency": 6,
+          "percentage": 0.01,
+          "aspect": "Customer Support"
+        },
+        {
+          "phrase": "terrible customer service",
+          "n_gram_type": "Trigram",
+          "frequency": 5,
+          "percentage": 0.01,
+          "aspect": "Customer Support"
+        },
+        {
+          "phrase": "poor customer service",
+          "n_gram_type": "Trigram",
+          "frequency": 4,
+          "percentage": 0.01,
+          "aspect": "Customer Support"
+        },
+        {
+          "phrase": "defective customer service",
+          "n_gram_type": "Trigram",
+          "frequency": 3,
+          "percentage": 0.01,
+          "aspect": "Customer Support"
+        },
+        {
+          "phrase": "terrible tech support",
+          "n_gram_type": "Trigram",
+          "frequency": 3,
+          "percentage": 0.01,
+          "aspect": "Customer Support"
+        }
+      ],
+      "Delivery / Packaging": [],
+      "General Dissatisfaction": [
+        {
+          "phrase": "worst movie",
+          "n_gram_type": "Bigram",
+          "frequency": 141,
+          "percentage": 0.34,
+          "aspect": "General Dissatisfaction"
+        },
+        {
+          "phrase": "worst book",
+          "n_gram_type": "Bigram",
+          "frequency": 95,
+          "percentage": 0.23,
+          "aspect": "General Dissatisfaction"
+        },
+        {
+          "phrase": "bad movie",
+          "n_gram_type": "Bigram",
+          "frequency": 66,
+          "percentage": 0.16,
+          "aspect": "General Dissatisfaction"
+        },
+        {
+          "phrase": "bad bad",
+          "n_gram_type": "Bigram",
+          "frequency": 56,
+          "percentage": 0.13,
+          "aspect": "General Dissatisfaction"
+        },
+        {
+          "phrase": "piece junk",
+          "n_gram_type": "Bigram",
+          "frequency": 52,
+          "percentage": 0.12,
+          "aspect": "General Dissatisfaction"
+        },
+        {
+          "phrase": "bad book",
+          "n_gram_type": "Bigram",
+          "frequency": 44,
+          "percentage": 0.1,
+          "aspect": "General Dissatisfaction"
+        }
+      ]
+    }
+  },
+  "lda_topics": [
+    {
+      "topic_id": 1,
+      "label": "Topic 1",
+      "top_words": [
+        "movie",
+        "book",
+        "worst",
+        "read",
+        "dvd",
+        "bad",
+        "love",
+        "edition"
+      ],
+      "top_words_str": "movie, book, worst, read, dvd, bad, love, edition",
+      "terms_with_weights": [
+        {
+          "term": "movie",
+          "weight": 0.051
+        },
+        {
+          "term": "book",
+          "weight": 0.0404
+        },
+        {
+          "term": "worst",
+          "weight": 0.0192
+        },
+        {
+          "term": "read",
+          "weight": 0.0172
+        },
+        {
+          "term": "dvd",
+          "weight": 0.0167
+        },
+        {
+          "term": "bad",
+          "weight": 0.0101
+        },
+        {
+          "term": "love",
+          "weight": 0.0089
+        },
+        {
+          "term": "edition",
+          "weight": 0.0082
+        }
+      ],
+      "statistical_interpretation": "Product Durability & Build Issues",
+      "note": "Statistical latent distribution; human interpretation suggested."
+    },
+    {
+      "topic_id": 2,
+      "label": "Topic 2",
+      "top_words": [
+        "work",
+        "doesn",
+        "stars",
+        "cheap",
+        "long",
+        "junk",
+        "story",
+        "warning"
+      ],
+      "top_words_str": "work, doesn, stars, cheap, long, junk, story, warning",
+      "terms_with_weights": [
+        {
+          "term": "work",
+          "weight": 0.0236
+        },
+        {
+          "term": "doesn",
+          "weight": 0.0155
+        },
+        {
+          "term": "stars",
+          "weight": 0.0127
+        },
+        {
+          "term": "cheap",
+          "weight": 0.0112
+        },
+        {
+          "term": "long",
+          "weight": 0.011
+        },
+        {
+          "term": "junk",
+          "weight": 0.0102
+        },
+        {
+          "term": "story",
+          "weight": 0.0072
+        },
+        {
+          "term": "warning",
+          "weight": 0.0067
+        }
+      ],
+      "statistical_interpretation": "Cost, Pricing & Value Assessment",
+      "note": "Statistical latent distribution; human interpretation suggested."
+    },
+    {
+      "topic_id": 3,
+      "label": "Topic 3",
+      "top_words": [
+        "boring",
+        "better",
+        "book",
+        "disappointing",
+        "disappointed",
+        "new",
+        "watch",
+        "poorly"
+      ],
+      "top_words_str": "boring, better, book, disappointing, disappointed, new, watch, poorly",
+      "terms_with_weights": [
+        {
+          "term": "boring",
+          "weight": 0.0285
+        },
+        {
+          "term": "better",
+          "weight": 0.0236
+        },
+        {
+          "term": "book",
+          "weight": 0.0148
+        },
+        {
+          "term": "disappointing",
+          "weight": 0.0137
+        },
+        {
+          "term": "disappointed",
+          "weight": 0.0136
+        },
+        {
+          "term": "new",
+          "weight": 0.0102
+        },
+        {
+          "term": "watch",
+          "weight": 0.0084
+        },
+        {
+          "term": "poorly",
+          "weight": 0.0082
+        }
+      ],
+      "statistical_interpretation": "Delivery, Packaging & Shipping",
+      "note": "Statistical latent distribution; human interpretation suggested."
+    },
+    {
+      "topic_id": 4,
+      "label": "Topic 4",
+      "top_words": [
+        "poor",
+        "quality",
+        "awful",
+        "beware",
+        "music",
+        "nice",
+        "game",
+        "old"
+      ],
+      "top_words_str": "poor, quality, awful, beware, music, nice, game, old",
+      "terms_with_weights": [
+        {
+          "term": "poor",
+          "weight": 0.0309
+        },
+        {
+          "term": "quality",
+          "weight": 0.0247
+        },
+        {
+          "term": "awful",
+          "weight": 0.0143
+        },
+        {
+          "term": "beware",
+          "weight": 0.0116
+        },
+        {
+          "term": "music",
+          "weight": 0.0087
+        },
+        {
+          "term": "nice",
+          "weight": 0.0085
+        },
+        {
+          "term": "game",
+          "weight": 0.0082
+        },
+        {
+          "term": "old",
+          "weight": 0.0081
+        }
+      ],
+      "statistical_interpretation": "Battery, Power & Charging Functionality",
+      "note": "Statistical latent distribution; human interpretation suggested."
+    },
+    {
+      "topic_id": 5,
+      "label": "Topic 5",
+      "top_words": [
+        "bad",
+        "waste",
+        "book",
+        "money",
+        "horrible",
+        "best",
+        "terrible",
+        "worth"
+      ],
+      "top_words_str": "bad, waste, book, money, horrible, best, terrible, worth",
+      "terms_with_weights": [
+        {
+          "term": "bad",
+          "weight": 0.0306
+        },
+        {
+          "term": "waste",
+          "weight": 0.0248
+        },
+        {
+          "term": "book",
+          "weight": 0.0185
+        },
+        {
+          "term": "money",
+          "weight": 0.0184
+        },
+        {
+          "term": "horrible",
+          "weight": 0.0159
+        },
+        {
+          "term": "best",
+          "weight": 0.014
+        },
+        {
+          "term": "terrible",
+          "weight": 0.0118
+        },
+        {
+          "term": "worth",
+          "weight": 0.0116
+        }
+      ],
+      "statistical_interpretation": "Customer Service, Returns & Support",
+      "note": "Statistical latent distribution; human interpretation suggested."
+    }
+  ],
+  "dataset_info": {
+    "source": "Amazon Polarity (HuggingFace datasets)",
+    "sample_size": 86459,
+    "num_partitions": 8,
+    "columns": [
+      "label",
+      "title",
+      "review"
+    ],
+    "target_variable": "label (0=negative, 1=positive)"
+  },
+  "scaling_demo": [
+    {
+      "rows": 10000,
+      "train_time_sec": 1.96
+    },
+    {
+      "rows": 100000,
+      "train_time_sec": 3.6
+    }
+  ]
+}

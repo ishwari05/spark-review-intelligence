@@ -1,233 +1,1130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Product Review Intelligence — Spark ML</title>
-<link rel="stylesheet" href="style.css" />
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ReviewIQ — Product Review Intelligence SaaS</title>
+  <meta name="description" content="Turn customer reviews into product intelligence. Multi-tenant SaaS platform for marketplaces, sellers, and brands." />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
-<nav class="navbar">
-  <div class="nav-brand">
-    <span class="nav-logo">⚡</span>
-    <div>
-      <div class="nav-title">Product Review Intelligence</div>
-      <div class="nav-subtitle">Scalable Sentiment Analysis · Apache Spark MLlib</div>
-    </div>
-  </div>
-  <div class="nav-links">
-    <a href="#overview">Overview</a>
-    <a href="#eda">Data</a>
-    <a href="#models">Models</a>
-    <a href="#absa">Aspects</a>
-    <a href="#complaints">Complaints</a>
-    <a href="#analyzer">Analyzer</a>
-    <a href="#insights">Insights</a>
-    <a href="#errors">Error Analysis</a>
-  </div>
-</nav>
-
-<header class="hero" id="overview">
-  <div class="hero-inner">
-    <p class="eyebrow">Scalable Product Review Intelligence</p>
-    <h1>Product Review Intelligence</h1>
-    <p>An end-to-end Spark ML workflow that benchmarks multiple classifiers, mines product pain points, and visualizes the final results from the repository's generated model outputs.</p>
-    <div class="stat-row" id="hero-stats">
-      <div class="stat-card"><div class="stat-value" id="stat-reviews">—</div><div class="stat-label">Reviews Analyzed</div></div>
-      <div class="stat-card"><div class="stat-value" id="stat-positive">—</div><div class="stat-label">Positive %</div></div>
-      <div class="stat-card"><div class="stat-value" id="stat-negative">—</div><div class="stat-label">Negative %</div></div>
-      <div class="stat-card"><div class="stat-value" id="stat-best-model">—</div><div class="stat-label">Best Model</div></div>
-      <div class="stat-card"><div class="stat-value" id="stat-best-accuracy">—</div><div class="stat-label">Best Accuracy</div></div>
-      <div class="stat-card"><div class="stat-value" id="stat-aspect-mentions">—</div><div class="stat-label">Aspect Mentions</div></div>
-    </div>
-  </div>
-</header>
-
-<main>
-
-  <section id="eda" class="section">
-    <h2>Dataset &amp; Exploratory Analysis</h2>
-    <p class="section-sub">Loaded, cleaned and explored with Spark DataFrame operations (select, filter, groupBy, withColumn).</p>
-    <div class="grid-2">
-      <div class="card chart-card">
-        <h3>Sentiment Class Distribution</h3>
-        <canvas id="chart-class"></canvas>
-      </div>
-      <div class="card chart-card">
-        <h3>Review Length Distribution</h3>
-        <canvas id="chart-length"></canvas>
-      </div>
-    </div>
-    <div class="card chart-card" style="margin-top:20px;">
-      <h3>Most Frequent Words (sampled, stopwords removed)</h3>
-      <canvas id="chart-words"></canvas>
-    </div>
-  </section>
-
-  <section id="models" class="section">
-    <h2>Model Comparison</h2>
-    <p class="section-sub">Actual benchmark values from the final pipeline run: Logistic Regression was the top performer by F1 score.</p>
-    <div class="table-wrap">
-      <table id="model-table">
-        <thead>
-          <tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th><th>ROC-AUC</th><th>Train Time (s)</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="grid-2" style="margin-top:20px;">
-      <div class="card chart-card">
-        <h3>Metric Comparison</h3>
-        <canvas id="chart-metrics"></canvas>
-      </div>
-      <div class="card chart-card">
-        <h3>ROC Curves</h3>
-        <canvas id="chart-roc"></canvas>
-      </div>
-    </div>
-    <div class="card chart-card" style="margin-top:20px;">
-      <h3>Training Time vs Dataset Size</h3>
-      <canvas id="chart-scaling"></canvas>
-    </div>
-    <div class="grid-3" id="confusion-grid" style="margin-top:20px;"></div>
-  </section>
-
-  <section id="absa" class="section">
-    <h2>Aspect Intelligence (ABSA)</h2>
-    <p class="section-sub">Fine-grained aspect detection and sentiment extraction across 5 core product dimensions using Apache Spark.</p>
-
-    <!-- Aspect Sentiment Bars -->
-    <div class="card" style="margin-bottom:20px;">
-      <h3>Aspect Sentiment Overview</h3>
-      <div id="aspect-progress-list" class="aspect-progress-list" style="margin-top:15px;"></div>
+<!-- =======================================================================
+     AUTHENTICATION MODAL / OVERLAY (SUPABASE & REVIEWIO AUTH)
+     ======================================================================= -->
+<div id="auth-overlay" class="auth-overlay">
+  <div class="auth-box">
+    <div class="auth-header">
+      <div class="auth-brand-logo">⚡</div>
+      <h2 class="auth-title" id="auth-title">ReviewIQ</h2>
+      <p class="auth-sub" id="auth-subtitle">Turn customer reviews into product intelligence.</p>
     </div>
 
-    <!-- Charts Grid -->
-    <div class="grid-2">
-      <div class="card chart-card">
-        <h3>Aspect Sentiment Distribution (Positive vs Negative)</h3>
-        <canvas id="chart-aspect-sentiment"></canvas>
-      </div>
-      <div class="card chart-card">
-        <h3>Negative Feedback Rate (%) by Aspect</h3>
-        <canvas id="chart-aspect-negative"></canvas>
-      </div>
+    <!-- Auth Tabs: Sign In / Create Account -->
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab-btn active" id="tab-login-btn">Sign In</button>
+      <button type="button" class="auth-tab-btn" id="tab-signup-btn">Create Account</button>
     </div>
 
-    <div class="card chart-card" style="margin-top:20px;">
-      <h3>Total Mention Volume per Aspect</h3>
-      <canvas id="chart-aspect-mentions"></canvas>
-    </div>
+    <div class="auth-body">
+      <!-- Error Message Banner -->
+      <div id="auth-error-msg" style="display:none; padding:10px 14px; background:#fef2f2; border:1px solid #fecaca; border-radius:8px; color:#991b1b; font-size:12px; font-weight:500; margin-bottom:14px;"></div>
 
-    <!-- Potential Customer Pain Points -->
-    <div style="margin-top:24px;">
-      <h3 style="font-size:18px; margin-bottom:12px;">⚠️ Potential Customer Pain Points</h3>
-      <p class="section-sub" style="margin-bottom:16px;">Aspects exhibiting high negative feedback rates identified for operational or product intervention.</p>
-      <div class="grid-3" id="pain-points-grid"></div>
-    </div>
-  </section>
-
-  <section id="complaints" class="section">
-    <h2>Customer Complaint &amp; Topic Intelligence</h2>
-    <p class="section-sub">Scalable N-Gram extraction and Spark MLlib LDA topic modeling uncovering recurring drivers of customer dissatisfaction.</p>
-
-    <!-- Top Complaints Table -->
-    <div class="card" style="margin-bottom:20px;">
-      <h3>Top Recurring Customer Complaints (Filtered N-Grams)</h3>
-      <div class="table-wrap" style="margin-top:12px;">
-        <table id="complaints-table">
-          <thead>
-            <tr><th>Complaint Phrase</th><th>N-Gram Type</th><th>Occurrences</th><th>% Negative Reviews</th><th>Associated Aspect</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Charts Grid: Complaints frequency & N-gram distribution -->
-    <div class="grid-2">
-      <div class="card chart-card">
-        <h3>Top Complaint Phrases by Frequency</h3>
-        <canvas id="chart-complaints"></canvas>
-      </div>
-      <div class="card chart-card">
-        <h3>Top Negative Bigrams &amp; Trigrams</h3>
-        <canvas id="chart-ngrams"></canvas>
-      </div>
-    </div>
-
-    <!-- Spark MLlib LDA Topics Card -->
-    <div class="card chart-card" style="margin-top:20px;">
-      <h3>Spark MLlib LDA Discovered Complaint Themes (k=5)</h3>
-      <canvas id="chart-topics"></canvas>
-      <div id="topics-grid" class="grid-3" style="margin-top:20px;"></div>
-    </div>
-
-    <!-- Aspect to Complaint Breakdown Grid -->
-    <div style="margin-top:24px;">
-      <h3 style="font-size:18px; margin-bottom:12px;">Aspect-to-Complaint Breakdown</h3>
-      <p class="section-sub" style="margin-bottom:16px;">Specific recurring complaints grouped under each product aspect.</p>
-      <div class="grid-3" id="aspect-complaints-grid"></div>
-    </div>
-  </section>
-
-  <section id="analyzer" class="section">
-    <h2>Live Sentiment &amp; Aspect Analyzer</h2>
-    <p class="section-sub">Runs through the real trained Spark pipeline and ABSA clause extractor.</p>
-    <div class="card analyzer-card">
-      <textarea id="review-input" placeholder="Enter a product review...">The battery stopped working after one week and the charger is terrible.</textarea>
-      <div class="examples">
-        <span class="example-chip" data-text="The battery stopped working after one week and the charger is terrible.">Battery &amp; Charger Failure</span>
-        <span class="example-chip" data-text="The battery life is terrible but the build quality is excellent.">Mixed Aspects (ABSA)</span>
-        <span class="example-chip" data-text="The product quality is excellent and delivery was extremely fast.">Great delivery</span>
-        <span class="example-chip" data-text="Terrible build quality, it broke after two days of use.">Bad build quality</span>
-        <span class="example-chip" data-text="Decent for the price but the packaging was damaged.">Mixed review</span>
-      </div>
-      <button id="analyze-btn">Analyze Review</button>
-      <div id="result-box" class="result-box hidden">
-        <div class="result-sentiment" id="result-sentiment">—</div>
-        <div class="result-bar-wrap">
-          <div class="result-bar-label">Negative <span id="prob-neg-label"></span></div>
-          <div class="result-bar"><div class="result-bar-fill neg" id="bar-neg"></div></div>
-          <div class="result-bar-label">Positive <span id="prob-pos-label"></span></div>
-          <div class="result-bar"><div class="result-bar-fill pos" id="bar-pos"></div></div>
+      <!-- 1. LOGIN FORM -->
+      <form id="form-login" class="auth-form">
+        <div class="form-group">
+          <label class="form-label" for="login-email">Email</label>
+          <input type="email" id="login-email" class="form-input" placeholder="name@company.com" required autocomplete="username" />
         </div>
-        <div class="result-meta" id="result-meta"></div>
+        <div class="form-group">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <label class="form-label" for="login-password">Password</label>
+            <a href="#" id="link-forgot-pw" style="font-size:11px; color:var(--brand-primary); text-decoration:none;">Forgot password?</a>
+          </div>
+          <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password" />
+        </div>
+        <button type="submit" class="btn btn-primary" id="btn-login-submit" style="width:100%; padding:11px; font-size:14px; font-weight:600; margin-top:4px;">
+          Sign In
+        </button>
+      </form>
 
-        <!-- Aspect-level breakdown -->
-        <div id="aspect-results-container" class="aspect-results-container hidden" style="margin-top:18px; border-top:1px solid var(--border); padding-top:14px;">
-          <div style="font-weight:600; font-size:14px; margin-bottom:10px; color:var(--text);">Aspect Analysis (ABSA):</div>
-          <div id="aspect-tags-list" class="aspect-tags-list"></div>
+      <!-- 2. SIGNUP FORM -->
+      <form id="form-signup" class="auth-form" style="display:none;">
+        <div class="form-group">
+          <label class="form-label" for="signup-name">Full Name</label>
+          <input type="text" id="signup-name" class="form-input" placeholder="Sarah Chen" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="signup-email">Work Email</label>
+          <input type="email" id="signup-email" class="form-input" placeholder="sarah@aurasound.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="signup-password">Password</label>
+          <input type="password" id="signup-password" class="form-input" placeholder="Min. 6 characters" required />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Account Type</label>
+          <div class="role-radio-group">
+            <label class="role-radio-card selected" id="card-role-seller">
+              <input type="radio" name="signup_org_type" value="seller" checked />
+              <span class="role-card-title">Seller / Brand</span>
+              <span class="role-card-desc">Private product intelligence</span>
+            </label>
+            <label class="role-radio-card" id="card-role-platform">
+              <input type="radio" name="signup_org_type" value="platform" />
+              <span class="role-card-title">Platform</span>
+              <span class="role-card-desc">Amazon-like marketplace operator</span>
+            </label>
+          </div>
         </div>
 
-        <!-- Identified Complaints breakdown -->
-        <div id="complaints-results-container" class="complaints-results-container hidden" style="margin-top:12px; border-top:1px dashed var(--border); padding-top:12px;">
-          <div style="font-weight:600; font-size:14px; margin-bottom:8px; color:var(--text);">Mined Complaint Patterns:</div>
-          <div id="complaints-tags-list" class="complaints-tags-list"></div>
+        <div class="form-group">
+          <label class="form-label" for="signup-company">Company / Organization Name</label>
+          <input type="text" id="signup-company" class="form-input" placeholder="Aura Sound Technologies" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="btn-signup-submit" style="width:100%; padding:11px; font-size:14px; font-weight:600; margin-top:4px;">
+          Create Account
+        </button>
+      </form>
+
+      <!-- Quick 1-Click Demo Logins for Instant Testing -->
+      <div class="demo-accounts-card">
+        <div class="demo-title">
+          <span>Quick 1-Click Evaluation Logins</span>
+          <span style="font-size:9px; background:#e2e8f0; padding:1px 5px; border-radius:3px;">DEV DATA</span>
+        </div>
+        <div class="demo-pills">
+          <button type="button" class="demo-pill-btn" onclick="window.demoLogin('demo-platform-token')">
+            <div>
+              <strong>Alex Platform Admin</strong>
+              <div style="font-size:11px; color:var(--text-muted);">Apex Global Marketplace</div>
+            </div>
+            <span class="demo-pill-badge platform">Platform</span>
+          </button>
+          <button type="button" class="demo-pill-btn" onclick="window.demoLogin('demo-seller-aura-token')">
+            <div>
+              <strong>Sarah Chen (Owner)</strong>
+              <div style="font-size:11px; color:var(--text-muted);">Aura Sound Technologies</div>
+            </div>
+            <span class="demo-pill-badge seller">Seller A</span>
+          </button>
+          <button type="button" class="demo-pill-btn" onclick="window.demoLogin('demo-seller-lumina-token')">
+            <div>
+              <strong>David Rossi (Owner)</strong>
+              <div style="font-size:11px; color:var(--text-muted);">Lumina Smart Devices</div>
+            </div>
+            <span class="demo-pill-badge seller">Seller B</span>
+          </button>
+          <button type="button" class="demo-pill-btn" onclick="window.demoLogin('demo-seller-aura-viewer-token')">
+            <div>
+              <strong>Mark Viewer (Read-Only)</strong>
+              <div style="font-size:11px; color:var(--text-muted);">Aura Sound (Viewer Role)</div>
+            </div>
+            <span class="demo-pill-badge viewer">Viewer</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- =======================================================================
+     MAIN SAAS APPLICATION LAYOUT
+     ======================================================================= -->
+<div class="app-layout" id="main-app-layout">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="app-sidebar" id="app-sidebar">
+    <div class="sidebar-header">
+      <a href="#overview" class="sidebar-brand">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-info">
+          <div class="brand-title">
+            ReviewIQ
+            <span class="brand-badge" id="sidebar-tenant-type">SaaS</span>
+          </div>
+          <div class="brand-tagline" id="sidebar-org-name">Intelligence</div>
+        </div>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <!-- Section: Intelligence -->
+      <div class="nav-section-label" id="nav-label-intelligence">Intelligence</div>
+      <div class="nav-group">
+        <!-- Overview (Routes to Platform Overview or Seller Overview dynamically) -->
+        <a href="#overview" class="nav-item active" data-view="overview" id="nav-item-overview">
+          <span class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+          </span>
+          <span id="nav-text-overview">Overview</span>
+        </a>
+
+        <!-- Platform Only: Sellers Management -->
+        <a href="#sellers" class="nav-item nav-platform-only" data-view="sellers" id="nav-item-sellers">
+          <span class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </span>
+          Sellers
+        </a>
+
+        <!-- Products (My Products for Seller, Marketplace Products for Platform) -->
+        <a href="#products" class="nav-item" data-view="products" id="nav-item-products">
+          <span class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+          </span>
+          <span id="nav-text-products">Products</span>
+        </a>
+
+        <!-- Sentiment -->
+        <a href="#sentiment" class="nav-item" data-view="sentiment">
+          <span class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 55 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </span>
+          Sentiment
+        </a>
+
+        <!-- Aspects -->
+        <a href="#aspects" class="nav-item" data-view="aspects">
+          <span class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </span>
+          Aspects
+        </a>
+
+        <!-- Issues -->
+        <a href="#issues" class="nav-item" data-view="issues">
+          <span class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+          </span>
+          Issues
+        </a>
+
+        <!-- Reviews -->
+        <a href="#reviews" class="nav-item" data-view="reviews">
+          <span class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>
+          </span>
+          Review Explorer
+        </a>
+
+        <!-- Platform Only: Cross-Seller Analytics -->
+        <a href="#analytics" class="nav-item nav-platform-only" data-view="analytics" id="nav-item-analytics">
+          <span class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+          </span>
+          Analytics
+        </a>
+      </div>
+
+      <!-- Section: Tools & Pipeline -->
+      <div class="nav-section-label">Tools &amp; Pipeline</div>
+      <div class="nav-group">
+        <a href="#live-analyzer" class="nav-item" data-view="live-analyzer">
+          <span class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </span>
+          Live Analyzer
+        </a>
+        <a href="#analyze" class="nav-item" data-view="analyze" id="nav-item-analyze">
+          <span class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+          </span>
+          <span id="nav-text-analyze">Analyze Reviews</span>
+        </a>
+      </div>
+
+      <!-- Section: System -->
+      <div class="nav-section-label">Organization &amp; System</div>
+      <div class="nav-group">
+        <a href="#settings" class="nav-item" data-view="settings">
+          <span class="nav-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </span>
+          Settings &amp; Team
+        </a>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="engine-status-card">
+        <div class="engine-status-header">
+          <span class="status-dot"></span>
+          <span class="status-text" id="engine-status-indicator">Spark Pipeline Ready</span>
+        </div>
+        <div class="status-desc">
+          <span id="footer-org-label">Aura Sound</span>
+          <span id="sidebar-review-count">--</span>
         </div>
       </div>
     </div>
-  </section>
+  </aside>
 
-  <section id="insights" class="section">
-    <h2>Business Insights</h2>
-    <p class="section-sub">Derived from the actual analyzed dataset, not assumptions.</p>
-    <div class="grid-3" id="insights-grid"></div>
-  </section>
+  <!-- MAIN VIEWPORT -->
+  <div class="app-main">
+    
+    <!-- TOPBAR -->
+    <header class="app-topbar">
+      <div class="topbar-left">
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
+        </button>
+        <div class="page-breadcrumb">
+          <span class="page-title-badge" id="topbar-title">Overview</span>
+        </div>
+      </div>
 
-  <section id="errors" class="section">
-    <h2>Error Analysis</h2>
-    <p class="section-sub">Reviews the best model misclassified — useful for the "why does ML fail" viva question.</p>
-    <div id="errors-list"></div>
-  </section>
+      <div class="topbar-right">
+        <!-- Tenant Organization Badge -->
+        <span class="topbar-tenant-badge" id="topbar-tenant-badge">
+          <span id="topbar-org-name">Workspace</span>
+          <span class="badge" id="topbar-org-type-pill" style="font-size:10px; text-transform:uppercase;">Seller</span>
+        </span>
 
-</main>
+        <!-- Active Model Pill -->
+        <span class="badge-pill model" id="topbar-model">Tuned LR · 90.55% Acc</span>
 
-<footer class="footer">
-  Big Data Analytics Mini Project · Apache Spark · Spark MLlib · TF‑IDF · Flask
-</footer>
+        <!-- User Profile Dropdown Menu -->
+        <div class="user-profile-menu">
+          <button type="button" class="user-avatar-btn" id="user-avatar-btn" aria-haspopup="true">
+            <span class="user-avatar-circle" id="user-avatar-letter">A</span>
+            <span id="topbar-user-name">User</span>
+            <span class="badge" id="topbar-user-role" style="font-size:10px;">OWNER</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+
+          <div class="user-dropdown" id="user-dropdown">
+            <div class="user-dropdown-header">
+              <div class="user-dropdown-name" id="menu-user-fullname">User Fullname</div>
+              <div class="user-dropdown-email" id="menu-user-email">user@company.com</div>
+            </div>
+            <button type="button" class="user-dropdown-item" onclick="window.location.hash='#settings'">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              Account Settings
+            </button>
+            <button type="button" class="user-dropdown-item" onclick="window.showAuthModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Switch Tenant Account
+            </button>
+            <button type="button" class="user-dropdown-item logout" onclick="window.logout()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+              Sign Out
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- CONTENT SCROLL CONTAINER -->
+    <div class="page-container">
+
+      <!-- ===================================================================
+           VIEW: PLATFORM OVERVIEW (MARKETPLACE INTELLIGENCE)
+           =================================================================== -->
+      <section id="view-platform-overview" class="view-section">
+        <div class="view-header">
+          <div>
+            <h1 class="view-header-title">Marketplace Intelligence</h1>
+            <p class="view-header-sub">Marketplace-wide seller health, multi-vendor product sentiment, and aggregated customer pain points.</p>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-primary" onclick="window.openAddSellerModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+              Add / Invite Seller
+            </button>
+          </div>
+        </div>
+
+        <!-- Platform KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Sellers</div>
+            <div class="kpi-value" id="platform-kpi-sellers">--</div>
+            <div class="kpi-sub">Active merchant organizations</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Marketplace Products</div>
+            <div class="kpi-value" id="platform-kpi-products">--</div>
+            <div class="kpi-sub">Catalog items managed</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Total Reviews Analyzed</div>
+            <div class="kpi-value" id="platform-kpi-reviews">--</div>
+            <div class="kpi-sub">Processed through Spark pipeline</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Overall Sentiment</div>
+            <div class="kpi-value" id="platform-kpi-sentiment" style="color:var(--status-pos);">--%</div>
+            <div class="kpi-sub"><span id="platform-kpi-neg">--%</span> negative feedback</div>
+          </div>
+          <div class="kpi-card primary">
+            <div class="kpi-label">Marketplace Health</div>
+            <div class="kpi-value" id="platform-kpi-health">-- / 100</div>
+            <div class="kpi-sub">Weighted seller satisfaction</div>
+          </div>
+        </div>
+
+        <!-- Seller Performance Table -->
+        <div class="card" style="margin-top:24px;">
+          <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <h3 class="card-title">Seller Performance Benchmark</h3>
+              <p class="card-subtitle">Real-time health index, volume, and sentiment rating across all managed sellers.</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="window.loadPlatformData()">Refresh Data</button>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="platform-sellers-table">
+              <thead>
+                <tr>
+                  <th>Seller Organization</th>
+                  <th>Products</th>
+                  <th>Reviews</th>
+                  <th>Positive Rate</th>
+                  <th>Negative Rate</th>
+                  <th>Health Score</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="platform-sellers-tbody">
+                <!-- Dynamically rendered -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW: SELLER OVERVIEW (YOUR PRODUCT INTELLIGENCE)
+           =================================================================== -->
+      <section id="view-seller-overview" class="view-section active">
+        <div class="view-header">
+          <div>
+            <h1 class="view-header-title" id="seller-greeting-title">Good morning — Your Product Intelligence</h1>
+            <p class="view-header-sub">Private analytics, product health, customer issue mining, and real-time sentiment signals.</p>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-primary" onclick="window.openAddProductModal()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+              Add Product
+            </button>
+          </div>
+        </div>
+
+        <!-- Seller KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Products</div>
+            <div class="kpi-value" id="seller-kpi-products">--</div>
+            <div class="kpi-sub">Active brand products</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Total Reviews</div>
+            <div class="kpi-value" id="seller-kpi-reviews">--</div>
+            <div class="kpi-sub">Customer reviews analyzed</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Positive Feedback</div>
+            <div class="kpi-value" id="seller-kpi-pos" style="color:var(--status-pos);">--%</div>
+            <div class="kpi-sub">Satisfied buyer mentions</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Negative Feedback</div>
+            <div class="kpi-value" id="seller-kpi-neg" style="color:var(--status-neg);">--%</div>
+            <div class="kpi-sub">Attention points</div>
+          </div>
+          <div class="kpi-card primary">
+            <div class="kpi-label">Product Health</div>
+            <div class="kpi-value" id="seller-kpi-health">-- / 100</div>
+            <div class="kpi-sub">Weighted aspect score</div>
+          </div>
+        </div>
+
+        <!-- Product Performance Breakdown -->
+        <div class="card" style="margin-top:24px;">
+          <div class="card-header">
+            <h3 class="card-title">Product Performance</h3>
+            <p class="card-subtitle">Review distribution and customer satisfaction across your catalog.</p>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="seller-products-perf-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>SKU</th>
+                  <th>Category</th>
+                  <th>Reviews</th>
+                  <th>Positive %</th>
+                  <th>Negative %</th>
+                  <th>Health</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="seller-products-perf-tbody">
+                <!-- Dynamically rendered -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Two Column Layout: Top Issues & Recent Feedback -->
+        <div class="grid-2" style="margin-top:24px;">
+          <!-- Top Issues Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Top Recurring Customer Issues</h3>
+              <p class="card-subtitle">Mined complaint phrases that degrade your product health score.</p>
+            </div>
+            <div id="seller-top-issues-list" style="display:flex; flex-direction:column; gap:10px;">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Recent Customer Feedback Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Recent Customer Feedback</h3>
+              <p class="card-subtitle">Latest verified reviews processed for your products.</p>
+            </div>
+            <div id="seller-recent-feedback-list" style="display:flex; flex-direction:column; gap:10px;">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW: SELLERS DIRECTORY (PLATFORM ONLY)
+           =================================================================== -->
+      <section id="view-platform-sellers" class="view-section">
+        <div class="view-header">
+          <div>
+            <h1 class="view-header-title">Seller Management</h1>
+            <p class="view-header-sub">Manage merchants, inspect seller-specific performance, and invite new brands.</p>
+          </div>
+          <button class="btn btn-primary" onclick="window.openAddSellerModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+            Add / Invite Seller
+          </button>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <input type="text" id="filter-sellers-search" class="form-input" style="max-width:320px;" placeholder="Search sellers..." />
+            <span class="badge" id="sellers-count-badge">-- Sellers</span>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Seller Name</th>
+                  <th>Products</th>
+                  <th>Reviews</th>
+                  <th>Positive Rate</th>
+                  <th>Negative Rate</th>
+                  <th>Health Score</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="sellers-directory-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW: PRODUCTS CATALOG (SELLER & PLATFORM)
+           =================================================================== -->
+      <section id="view-products" class="view-section">
+        <div class="view-header">
+          <div>
+            <h1 class="view-header-title" id="products-view-title">Product Catalog</h1>
+            <p class="view-header-sub" id="products-view-sub">Explore individual product intelligence, ABSA sentiment, and pain points.</p>
+          </div>
+          <button class="btn btn-primary" id="btn-add-product-main" onclick="window.openAddProductModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+            Add Product
+          </button>
+        </div>
+
+        <div class="card" style="margin-bottom:20px;">
+          <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+            <input type="text" id="filter-products-search" class="form-input" style="max-width:280px;" placeholder="Search products or SKU..." />
+            <select id="filter-products-category" class="filter-select">
+              <option value="All">All Categories</option>
+              <option value="Audio & Headphones">Audio &amp; Headphones</option>
+              <option value="Smart Home">Smart Home</option>
+              <option value="Home Appliances">Home Appliances</option>
+              <option value="Electronics">Electronics</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="product-grid" id="products-cards-grid">
+          <!-- Dynamically populated with product cards -->
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW: CROSS-SELLER ANALYTICS (PLATFORM ONLY)
+           =================================================================== -->
+      <section id="view-platform-analytics" class="view-section">
+        <div class="view-header">
+          <div>
+            <h1 class="view-header-title">Cross-Seller Comparison &amp; Analytics</h1>
+            <p class="view-header-sub">Benchmarking satisfaction rates, review volumes, and recurring complaints across merchants.</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:24px;">
+          <div class="card-header">
+            <h3 class="card-title">Side-by-Side Merchant Benchmark</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table" id="table-cross-seller">
+              <thead>
+                <tr>
+                  <th>Seller</th>
+                  <th>Products</th>
+                  <th>Reviews</th>
+                  <th>Positive %</th>
+                  <th>Negative %</th>
+                  <th>Health Score</th>
+                  <th>Dominant Positive Aspect</th>
+                  <th>Primary Issue</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-cross-seller">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW: SENTIMENT INTELLIGENCE
+           =================================================================== -->
+      <section id="view-sentiment" class="view-section">
+        <div class="view-header">
+          <div>
+            <h1 class="view-header-title">Sentiment Intelligence</h1>
+            <p class="view-header-sub">High-precision polarity classification using tuned Spark MLlib Logistic Regression.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Sentiment Distribution</h3>
+            </div>
+            <div style="height:280px; position:relative;">
+              <canvas id="chart-sentiment-pie"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Model Benchmarks (Phase 1 to Phase 4)</h3>
+            </div>
+            <div style="height:280px; position:relative;">
+              <canvas id="chart-models-bar"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW: ASPECT INTELLIGENCE (ABSA)
+           =================================================================== -->
+      <section id="view-aspects" class="view-section">
+        <div class="view-header">
+          <div>
+            <h1 class="view-header-title">Aspect-Level Intelligence (ABSA)</h1>
+            <p class="view-header-sub">Granular polarity breakdown by domain attributes (Battery, Build Quality, Price, Support).</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:24px;">
+          <div class="card-header">
+            <h3 class="card-title">Aspect Sentiment Comparison</h3>
+          </div>
+          <div style="height:320px; position:relative;">
+            <canvas id="chart-aspects-bar"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW: CUSTOMER ISSUES & COMPLAINTS
+           =================================================================== -->
+      <section id="view-issues" class="view-section">
+        <div class="view-header">
+          <div>
+            <h1 class="view-header-title">Recurring Customer Issues &amp; Pain Points</h1>
+            <p class="view-header-sub">Mined complaint phrases and n-grams causing negative sentiment drift.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-responsive">
+            <table class="data-table" id="issues-main-table">
+              <thead>
+                <tr>
+                  <th>Recurring Complaint Phrase</th>
+                  <th>Associated Aspect</th>
+                  <th>Frequency</th>
+                  <th>Percentage</th>
+                  <th>Priority</th>
+                  <th>Negative Sentiment Rate</th>
+                </tr>
+              </thead>
+              <tbody id="issues-main-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW: REVIEW EXPLORER
+           =================================================================== -->
+      <section id="view-reviews" class="view-section">
+        <div class="view-header">
+          <div>
+            <h1 class="view-header-title">Review Explorer</h1>
+            <p class="view-header-sub">Search, filter, and inspect customer feedback with model prediction tags.</p>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="card" style="margin-bottom:16px;">
+          <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+            <!-- Seller filter (visible to platform only) -->
+            <select id="review-filter-seller" class="filter-select nav-platform-only" style="display:none;">
+              <option value="">All Managed Sellers</option>
+            </select>
+            <select id="review-filter-sentiment" class="filter-select">
+              <option value="All">All Sentiments</option>
+              <option value="POSITIVE">Positive Only</option>
+              <option value="NEGATIVE">Negative Only</option>
+            </select>
+            <input type="text" id="review-search-input" class="form-input" style="max-width:280px;" placeholder="Search review text..." />
+            <button class="btn btn-secondary btn-sm" onclick="window.filterReviews()">Search</button>
+          </div>
+        </div>
+
+        <!-- Reviews Table -->
+        <div class="card">
+          <div class="table-responsive">
+            <table class="data-table" id="reviews-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Rating</th>
+                  <th>Sentiment</th>
+                  <th>Confidence</th>
+                  <th>Customer Review</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="reviews-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+          <!-- Pagination -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
+            <span style="font-size:12px; color:var(--text-muted);" id="reviews-pagination-text">Showing 1 to 20</span>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-secondary btn-sm" id="btn-prev-page" onclick="window.changeReviewPage(-1)">Previous</button>
+              <button class="btn btn-secondary btn-sm" id="btn-next-page" onclick="window.changeReviewPage(1)">Next</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW: ANALYZE REVIEWS & DATASET IMPORT
+           =================================================================== -->
+      <section id="view-analyze" class="view-section">
+        <div class="view-header">
+          <div>
+            <h1 class="view-header-title">Analyze Reviews &amp; Datasets</h1>
+            <p class="view-header-sub">Upload CSV/Excel reviews, inspect schema validation, and run Spark ML pipeline.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Upload Customer Reviews File</h3>
+            <p class="card-subtitle">Supports CSV and Excel files containing review text, rating, and product SKUs.</p>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:16px; max-width:600px;">
+            <div class="form-group">
+              <label class="form-label">Target Product</label>
+              <select id="upload-target-product" class="filter-select" style="width:100%;">
+                <!-- Dynamically populated with accessible products -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Dataset File (.csv, .xlsx)</label>
+              <input type="file" id="upload-file-input" class="form-input" accept=".csv,.xlsx,.tsv" />
+            </div>
+
+            <div style="display:flex; gap:12px;">
+              <button class="btn btn-primary" id="btn-validate-upload" onclick="window.handleUploadValidate()">
+                Validate Schema
+              </button>
+              <button class="btn btn-secondary" onclick="window.handleUploadSample()">
+                Use Demo Reviews File
+              </button>
+            </div>
+          </div>
+
+          <!-- Schema Validation Preview Box -->
+          <div id="upload-validation-box" style="display:none; margin-top:20px; padding:16px; background:#f8fafc; border:1px solid var(--border-light); border-radius:var(--radius-md);">
+            <h4 style="font-size:14px; font-weight:700; color:var(--text-main); margin-bottom:8px;">Schema Validation Results</h4>
+            <div id="upload-validation-stats" style="font-size:13px; color:var(--text-muted); line-height:1.6;"></div>
+
+            <div style="margin-top:16px;">
+              <button class="btn btn-primary" id="btn-run-pipeline-import" onclick="window.runImportAndAnalysis()">
+                Import &amp; Run Spark Pipeline
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW: LIVE REVIEW ANALYZER
+           =================================================================== -->
+      <section id="view-live-analyzer" class="view-section">
+        <div class="view-header">
+          <div>
+            <h1 class="view-header-title">Live Review Analyzer</h1>
+            <p class="view-header-sub">Test raw customer feedback against the Phase 4 tuned model and ABSA engine in real-time.</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:20px;">
+          <div class="form-group">
+            <label class="form-label" for="live-review-input">Raw Review Text</label>
+            <textarea id="live-review-input" class="form-input" rows="4" placeholder="Type or paste a product review here... (e.g. 'The battery life is phenomenal on flights, but the headband plastic feels fragile and cracked after 3 months.')"></textarea>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-secondary btn-sm" onclick="window.fillSampleLiveReview(1)">Sample: Great Battery</button>
+              <button class="btn btn-secondary btn-sm" onclick="window.fillSampleLiveReview(2)">Sample: Cracked Hinge</button>
+              <button class="btn btn-secondary btn-sm" onclick="window.fillSampleLiveReview(3)">Sample: Poor Support</button>
+            </div>
+            <button class="btn btn-primary" id="btn-run-live-predict" onclick="window.runLivePredict()">
+              Run Spark Inference
+            </button>
+          </div>
+        </div>
+
+        <!-- Prediction Result Output Box -->
+        <div id="live-result-box" class="card" style="display:none;">
+          <div class="card-header">
+            <h3 class="card-title">Real-Time Inference Output</h3>
+          </div>
+          <div class="grid-2">
+            <div>
+              <div style="font-size:12px; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px;">Predicted Polarity</div>
+              <div id="live-pred-sentiment" style="font-size:24px; font-weight:800;">POSITIVE</div>
+              <div id="live-pred-confidence" style="font-size:13px; color:var(--text-muted); margin-top:4px;">Confidence: 94.2%</div>
+            </div>
+            <div>
+              <div style="font-size:12px; font-weight:600; text-transform:uppercase; color:var(--text-muted); margin-bottom:4px;">Active Pipeline Model</div>
+              <div id="live-pred-model" style="font-size:14px; font-weight:600;">Tuned Logistic Regression (Phase 4)</div>
+            </div>
+          </div>
+
+          <div style="margin-top:20px;">
+            <h4 style="font-size:13px; font-weight:700; margin-bottom:8px;">Detected Aspect-Level Sentiment</h4>
+            <div id="live-pred-aspects-list" style="display:flex; flex-direction:column; gap:6px;">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+
+          <div style="margin-top:20px;">
+            <h4 style="font-size:13px; font-weight:700; margin-bottom:8px;">Mined Complaint Signals</h4>
+            <div id="live-pred-complaints-list" style="display:flex; gap:6px; flex-wrap:wrap;">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           VIEW: SETTINGS & TEAM MANAGEMENT
+           =================================================================== -->
+      <section id="view-settings" class="view-section">
+        <div class="view-header">
+          <div>
+            <h1 class="view-header-title">Organization Settings &amp; Team</h1>
+            <p class="view-header-sub">Manage workspace profiles, roles, security, invitations, and audit logs.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Profile Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">User Profile</h3>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" id="settings-profile-name" class="form-input" readonly />
+            </div>
+            <div class="form-group" style="margin-top:10px;">
+              <label class="form-label">Work Email</label>
+              <input type="email" id="settings-profile-email" class="form-input" readonly />
+            </div>
+          </div>
+
+          <!-- Organization Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Organization Details</h3>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Organization Name</label>
+              <input type="text" id="settings-org-name" class="form-input" readonly />
+            </div>
+            <div class="form-group" style="margin-top:10px;">
+              <label class="form-label">Organization Type</label>
+              <input type="text" id="settings-org-type" class="form-input" readonly />
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Members Card -->
+        <div class="card" style="margin-top:20px;">
+          <div class="card-header" style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <h3 class="card-title">Team Members &amp; Roles</h3>
+              <p class="card-subtitle">Role permissions: Owner, Admin, Analyst, Viewer.</p>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="window.openInviteMemberModal()">
+              Invite Team Member
+            </button>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Member Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Joined Date</th>
+                </tr>
+              </thead>
+              <tbody id="settings-team-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Audit Logs Card -->
+        <div class="card" style="margin-top:20px;">
+          <div class="card-header">
+            <h3 class="card-title">Audit Trail</h3>
+            <p class="card-subtitle">Security log of logins, uploads, analyses, and configuration events.</p>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Resource</th>
+                  <th>User</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody id="settings-audit-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- =======================================================================
+     MODALS
+     ======================================================================= -->
+
+<!-- 1. PRODUCT DETAIL MODAL (DRILL-DOWN) -->
+<div id="modal-product-detail" class="modal-overlay hidden">
+  <div class="modal-card wide">
+    <div class="modal-header">
+      <div>
+        <h3 class="modal-title" id="pmodal-title">Product Intelligence</h3>
+        <p style="font-size:12px; color:var(--text-muted);" id="pmodal-meta">SKU: -- · Category: --</p>
+      </div>
+      <button class="modal-close-btn" onclick="window.closeProductModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <!-- KPI Row -->
+      <div class="kpi-grid" style="margin-bottom:20px;">
+        <div class="kpi-card primary">
+          <div class="kpi-label">Health Score</div>
+          <div class="kpi-value" id="pmodal-kpi-health">-- / 100</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Review Volume</div>
+          <div class="kpi-value" id="pmodal-kpi-reviews">--</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Positive Rate</div>
+          <div class="kpi-value" id="pmodal-kpi-pos" style="color:var(--status-pos);">--%</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Negative Rate</div>
+          <div class="kpi-value" id="pmodal-kpi-neg" style="color:var(--status-neg);">--%</div>
+        </div>
+      </div>
+
+      <!-- Aspect Breakdown -->
+      <div style="margin-bottom:20px;">
+        <h4 style="font-size:14px; font-weight:700; margin-bottom:10px;">Aspect Intelligence Breakdown</h4>
+        <div id="pmodal-aspects-list" style="display:flex; flex-direction:column; gap:8px;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Product Recurring Complaints -->
+      <div style="margin-bottom:20px;">
+        <h4 style="font-size:14px; font-weight:700; margin-bottom:10px;">Mined Customer Complaints</h4>
+        <div id="pmodal-issues-list" style="display:flex; flex-direction:column; gap:8px;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Product Reviews List -->
+      <div>
+        <h4 style="font-size:14px; font-weight:700; margin-bottom:10px;">Recent Product Reviews</h4>
+        <div id="pmodal-reviews-list" style="display:flex; flex-direction:column; gap:8px;">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="window.closeProductModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- 2. ADD PRODUCT MODAL -->
+<div id="modal-add-product" class="modal-overlay hidden">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 class="modal-title">Add New Product</h3>
+      <button class="modal-close-btn" onclick="window.closeAddProductModal()">&times;</button>
+    </div>
+    <form id="form-add-product" onsubmit="window.submitAddProduct(event)">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="new-prod-name">Product Name</label>
+          <input type="text" id="new-prod-name" class="form-input" placeholder="e.g. Aura Pulse Earbuds Pro" required />
+        </div>
+        <div class="form-group" style="margin-top:12px;">
+          <label class="form-label" for="new-prod-sku">SKU / Model Number</label>
+          <input type="text" id="new-prod-sku" class="form-input" placeholder="e.g. AURA-EB-02" />
+        </div>
+        <div class="form-group" style="margin-top:12px;">
+          <label class="form-label" for="new-prod-category">Category</label>
+          <input type="text" id="new-prod-category" class="form-input" placeholder="e.g. Audio & Headphones" />
+        </div>
+        <div class="form-group" style="margin-top:12px;">
+          <label class="form-label" for="new-prod-desc">Description</label>
+          <textarea id="new-prod-desc" class="form-input" rows="3" placeholder="Product details, specs, target audience..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="window.closeAddProductModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Create Product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 3. ADD / INVITE SELLER MODAL (PLATFORM ONLY) -->
+<div id="modal-add-seller" class="modal-overlay hidden">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 class="modal-title">Add / Invite Seller</h3>
+      <button class="modal-close-btn" onclick="window.closeAddSellerModal()">&times;</button>
+    </div>
+    <form id="form-add-seller" onsubmit="window.submitAddSeller(event)">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="seller-company-name">Company / Seller Name</label>
+          <input type="text" id="seller-company-name" class="form-input" placeholder="e.g. Apex Sound Dynamics" required />
+        </div>
+        <div class="form-group" style="margin-top:12px;">
+          <label class="form-label" for="seller-contact-email">Contact / Merchant Email</label>
+          <input type="email" id="seller-contact-email" class="form-input" placeholder="e.g. contact@apexsound.com" required />
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin-top:12px;">
+          An organization invitation will be created and linked to your marketplace platform.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="window.closeAddSellerModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Invite Seller</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 4. INVITE TEAM MEMBER MODAL -->
+<div id="modal-invite-member" class="modal-overlay hidden">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 class="modal-title">Invite Team Member</h3>
+      <button class="modal-close-btn" onclick="window.closeInviteMemberModal()">&times;</button>
+    </div>
+    <form id="form-invite-member" onsubmit="window.submitInviteMember(event)">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="invite-member-email">Colleague Email</label>
+          <input type="email" id="invite-member-email" class="form-input" placeholder="colleague@company.com" required />
+        </div>
+        <div class="form-group" style="margin-top:12px;">
+          <label class="form-label" for="invite-member-role">Assigned Role</label>
+          <select id="invite-member-role" class="filter-select" style="width:100%;">
+            <option value="admin">Admin (Full management)</option>
+            <option value="analyst" selected>Analyst (Uploads, analysis, reviews)</option>
+            <option value="viewer">Viewer (Read-only access)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="window.closeInviteMemberModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Send Invitation</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 <script src="script.js"></script>
 </body>

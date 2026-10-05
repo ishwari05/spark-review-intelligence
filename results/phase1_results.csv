@@ -1,0 +1,4 @@
+experiment,preprocessing,model,accuracy,precision,recall,f1,roc_auc,train_time,prediction_time
+EXPERIMENT A,Baseline Preprocessing,Logistic Regression (Unigram + Bigram TF-IDF),0.7564,0.7568,0.7564,0.7565,0.8267,5.2,0.42
+EXPERIMENT B,Contractions + Preserved Negations,Logistic Regression (Unigram + Bigram TF-IDF),0.7784,0.7788,0.7784,0.7785,0.8468,4.77,1.51
+EXPERIMENT C,Contractions + Preserved Negations + Negation Marking,Logistic Regression (Unigram + Bigram TF-IDF),0.7813,0.7817,0.7813,0.7814,0.8504,3.87,1.33

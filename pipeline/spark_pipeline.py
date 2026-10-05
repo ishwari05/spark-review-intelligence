@@ -58,10 +58,15 @@ from pyspark.ml.evaluation import (
 # --------------------------------------------------------------------------
 # Config
 # --------------------------------------------------------------------------
-SAMPLE_SIZE = 200000          # 200k subset size — balanced for Colab & Local
+SAMPLE_SIZE = 100000          # Reduced to avoid OutOfMemoryError and timeouts
 TEST_FRACTION = 0.2
 SEED = 42
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+import sys
+PROJECT_ROOT = os.path.abspath(os.path.join(BASE_DIR, ".."))
+if PROJECT_ROOT not in sys.path:
+    sys.path.append(PROJECT_ROOT)
+os.environ["PYTHONPATH"] = PROJECT_ROOT + ":" + os.environ.get("PYTHONPATH", "")
 RESULTS_DIR = os.path.join(BASE_DIR, "results")
 FIGURES_DIR = os.path.join(RESULTS_DIR, "figures")
 MODEL_DIR = os.path.join(BASE_DIR, "saved_model")
@@ -80,7 +85,8 @@ def get_spark():
     spark = (
         SparkSession.builder.appName("ProductReviewIntelligence")
         .master("local[*]")
-        .config("spark.driver.memory", "4g")
+        .config("spark.driver.memory", "8g")
+        .config("spark.executor.memory", "8g")
         .config("spark.sql.shuffle.partitions", "8")
         .getOrCreate()
     )
@@ -99,12 +105,10 @@ def load_dataset(spark):
     """
     from datasets import load_dataset as hf_load_dataset
 
-    log(f"Downloading {SAMPLE_SIZE} rows of amazon_polarity (streaming)...")
-    hf_ds = hf_load_dataset("amazon_polarity", split="train", streaming=True)
+    log(f"Downloading {SAMPLE_SIZE} rows of amazon_polarity (robust local caching)...")
+    hf_ds = hf_load_dataset("amazon_polarity", split=f"train[:{SAMPLE_SIZE}]")
     rows = []
-    for i, row in enumerate(hf_ds):
-        if i >= SAMPLE_SIZE:
-            break
+    for row in hf_ds:
         rows.append(
             {
                 "label": float(row["label"]),  # 1 = positive, 0 = negative
@@ -835,6 +839,10 @@ def main():
     insights = generate_business_insights(df, best, top_pos, top_neg)
 
     # 4. Aspect-Based Sentiment Analysis (ABSA)
+    import sys as _sys
+    _project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    if _project_root not in _sys.path:
+        _sys.path.insert(0, _project_root)
     from backend.services.absa import run_spark_absa, generate_absa_figures
     log("Running Aspect-Based Sentiment Analysis (ABSA) on Spark DataFrame...")
     absa_df, absa_summary = run_spark_absa(spark, df, best_model)

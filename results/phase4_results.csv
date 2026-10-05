@@ -1,0 +1,5 @@
+experiment,feature_representation,classifier,max_iter,reg_param,elastic_net_param,class_weighting,accuracy,precision,recall,f1,roc_auc,train_time,prediction_time
+3-A Phase3-Baseline,"Unigram+Bigram TF-IDF, 50k, minDF=5",Logistic Regression,20,0.0,0.0,no,0.8671,0.8671,0.8671,0.8671,0.9362,17.53,1.27
+3-B Naive Bayes,"Unigram+Bigram TF-IDF, 50k, minDF=5",Naive Bayes,—,—,—,no,0.8812,0.8815,0.8812,0.8812,0.9353,8.95,0.89
+3-C LR Tuned,"Unigram+Bigram TF-IDF, 50k, minDF=5",Logistic Regression,200,0.5,0.0,no,0.9055,0.9055,0.9055,0.9054,0.9636,16.93,1.06
+3-D LinearSVC Tuned,"Unigram+Bigram TF-IDF, 50k, minDF=5",LinearSVC,200,0.01,—,no,0.8912,0.8912,0.8912,0.8912,0.9542,205.24,1.17

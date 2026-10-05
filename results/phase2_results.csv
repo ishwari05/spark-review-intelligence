@@ -1,0 +1,6 @@
+experiment,preprocessing,feature_representation,vocab_size,min_df,ngram_range,model,accuracy,precision,recall,f1,roc_auc,train_time,prediction_time
+"EXP 1 — Baseline (20k, minDF=2)",Contractions + Preserved Negations + Negation Marking (Phase 1 best),Unigram+Bigram TF-IDF,uni=20000 bi=20000,2.0,1+2,Logistic Regression (maxIter=20),0.7813,0.7817,0.7813,0.7814,0.8504,5.33,0.44
+"EXP 2 — 50k vocab, minDF=2",Contractions + Preserved Negations + Negation Marking (Phase 1 best),Unigram+Bigram TF-IDF,uni=50000 bi=50000,2.0,1+2,Logistic Regression (maxIter=20),0.7813,0.7817,0.7813,0.7814,0.8504,2.53,0.21
+"EXP 3 — 50k vocab, minDF=5",Contractions + Preserved Negations + Negation Marking (Phase 1 best),Unigram+Bigram TF-IDF,uni=50000 bi=50000,5.0,1+2,Logistic Regression (maxIter=20),0.7896,0.7902,0.7896,0.7897,0.8734,1.37,0.15
+"EXP 4 — 100k vocab, minDF=5",Contractions + Preserved Negations + Negation Marking (Phase 1 best),Unigram+Bigram TF-IDF,uni=100000 bi=100000,5.0,1+2,Logistic Regression (maxIter=20),0.7896,0.7902,0.7896,0.7897,0.8734,1.32,0.15
+"EXP 5 — Trigram (50k/30k/20k, minDF=5)",Contractions + Preserved Negations + Negation Marking (Phase 1 best),Unigram+Bigram+Trigram TF-IDF,uni=50000 bi=30000 tri=20000,5.0,1+2+3,Logistic Regression (maxIter=20),0.7893,0.79,0.7893,0.7894,0.8736,1.64,0.2
