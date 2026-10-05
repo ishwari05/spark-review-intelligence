@@ -34,6 +34,105 @@ This README describes what is implemented in the repository today. It does not d
 
 ---
 
+## System architecture
+
+```mermaid
+flowchart LR
+    Browser[Web browser / dashboard] --> Frontend[frontend/index.html\nfrontend/style.css\nfrontend/script.js]
+    Frontend --> API[Flask API\napi.py]
+    API --> Auth[Authentication & RBAC\nbackend/auth.py]
+    API --> Routes[Route handlers\nbackend/routes/]
+    Routes --> Repo[Repository layer\nbackend/repository.py]
+    Repo --> DB[(Supabase PostgreSQL / local dev fallback)]
+    Routes --> Services[ABSA + complaint mining\nbackend/services/]
+    Services --> Model[(Spark ML model\nsaved_model_phase4/)]
+    Model --> Predict[Live review inference\nPOST /api/predict]
+    Routes --> Dashboard[Platform + seller dashboards]
+
+    subgraph ML[Model development history]
+        P1[Phase 1 preprocessing experiments]
+        P2[Phase 2 TF-IDF feature tuning]
+        P3[Phase 3 classifier tuning]
+        P4[Phase 4 final model selection]
+    end
+
+    P1 --> P2 --> P3 --> P4
+    P4 --> Model
+```
+
+The application is organized around a single Flask service that handles auth, multi-tenant access control, product/review data access, and model inference. The ML pipeline is kept as a separate research and artifact layer that produces model files, evaluation summaries, and saved checkpoints used by the app at runtime.
+
+---
+
+## Experiment history and model development
+
+The project includes a multi-phase experimental pipeline in `pipeline/` that tests text preprocessing, feature engineering, and classifier selection before the final model is saved for application use. All experiments run on the Amazon Polarity sample, use an 80/20 train/test split with seed 42, and record the same evaluation metrics: accuracy, precision, recall, F1, ROC-AUC, training time, and prediction time.
+
+| Phase | Goal | Experiments | Key configuration | Result |
+|---|---|---|---|---|
+| Phase 1 | Preprocessing evaluation | A: baseline preprocessing; B: contraction expansion + preserved negations; C: contraction expansion + preserved negations + negation marking | Same dataset and logistic regression baseline; compare preprocessing choices only | Best result: Experiment C, which is the preprocessing used in later phases |
+| Phase 2 | Feature engineering optimization | 1: baseline; 2: larger vocab; 3: 50k vocab + minDF=5; 4: 100k vocab + minDF=5; 5: trigram variation | Fixed preprocessing to Phase 1 best; vary TF-IDF vocab/minDF/ngram settings | Best result: unigram + bigram TF-IDF with 50k vocab and minDF=5 |
+| Phase 3 | Classifier comparison | 3-A: LR baseline; 3-B: Naive Bayes; 3-C: LR tuned with TrainValidationSplit; 3-D: LinearSVC tuned; 3-E / 3-F: weighted variants if imbalance >5% | Same locked feature config from Phase 2; compare classifier families and tuning | Best result: LR tuned; class imbalance was below the threshold so weighted experiments were not needed |
+| Phase 4 | Final model selection and deployment artifact | 4-A: LR baseline; 4-B: Naive Bayes; 4-C: LR tuned; 4-D: LinearSVC tuned; 4-E / 4-F: weighted variants if required | Same locked feature config, but additional phase-4 preparation combines `title` + `review` text for richer context | Best result: Tuned Logistic Regression with 90.55% accuracy and 0.9054 F1 |
+
+### Phase 1 details
+
+The first research phase compares three preprocessing strategies:
+
+- Experiment A: baseline preprocessing
+- Experiment B: contraction expansion and preserved negations
+- Experiment C: contraction expansion, preserved negations, and explicit negation marking
+
+This phase proves the importance of handling negation correctly. The project’s implementation uses `preprocess_variant_c` as the selected preprocessing pathway for downstream feature and model work.
+
+### Phase 2 details
+
+Phase 2 keeps preprocessing fixed and varies the TF-IDF representation. The project script tests:
+
+- Unigram + bigram baseline
+- Larger vocabulary sizes
+- Higher minimum document frequency
+- Trigram experimentation where feasible
+
+The repository documents the best-performing configuration as:
+
+- unigram + bigram TF-IDF
+- vocabulary size of 50,000 for each n-gram family
+- `minDF = 5.0`
+- no sublinear TF because the underlying Spark MLlib implementation does not expose that parameter in this pipeline
+
+This configuration becomes the locked feature representation used in later phases.
+
+### Phase 3 details
+
+Phase 3 changes only the classifier and hyperparameter tuning choices while keeping the Phase 2 feature setup constant.
+
+The experiment set includes:
+
+- 3-A: Logistic Regression baseline
+- 3-B: Naive Bayes
+- 3-C: Logistic Regression with TrainValidationSplit tuning
+- 3-D: LinearSVC with TrainValidationSplit tuning
+- 3-E and 3-F: weighted variants, only used if class balance exceeded 5%; this was not required because the class balance remained approximately balanced
+
+The best-performing configuration in the project’s recorded results is the tuned logistic regression model.
+
+### Phase 4 details
+
+Phase 4 is the final model comparison and deployment artifact. It uses the same locked feature setup from Phase 2 and evaluates classifier choices against the same test split. The project also adds richer context by combining the review title and body before inference.
+
+The final result recorded by the repository is:
+
+- Model: Tuned Logistic Regression
+- Accuracy: 0.9055 (90.55%)
+- F1: 0.9054
+- ROC-AUC: 0.9636
+- Best saved model path: `saved_model_phase4/`
+
+The code comments in the phase-4 runner refer to labels such as 3-A to 3-F, but the repository’s summary files and final production artifact use the phase-4 model as the final deployed pipeline.
+
+---
+
 ## Product capabilities
 
 ### 1. Multi-tenant review intelligence
